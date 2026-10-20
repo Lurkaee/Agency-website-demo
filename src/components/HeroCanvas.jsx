@@ -135,34 +135,31 @@ export default function HeroCanvas() {
 
     window.addEventListener('resize', handleResize);
 
-    // Performance Management: Pause rendering when off-screen or tab hidden
+    // Performance Management: Pause frame loop entirely when off-screen or tab hidden
     let isVisible = true;
     let isTabActive = !document.hidden;
-
-    const handleVisibilityChange = () => {
-      isTabActive = !document.hidden;
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isVisible = entry.isIntersecting;
-        });
-      },
-      { threshold: 0.05 }
-    );
-    observer.observe(container);
-
-    // Animation Loop with high-resolution timer and adaptive frame execution
-    let animationFrameId;
+    let isRunning = false;
+    let animationFrameId = null;
     const startTime = performance.now();
 
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
+    const shouldAnimate = () => isVisible && isTabActive;
 
-      // Only execute updates and WebGL draw calls when visible in viewport and tab is focused
-      if (!isVisible || !isTabActive) return;
+    const stopLoop = () => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+      isRunning = false;
+    };
+
+    const animate = () => {
+      // Guard against running when state changed
+      if (!shouldAnimate()) {
+        stopLoop();
+        return;
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
 
       const elapsed = (performance.now() - startTime) * 0.001;
 
@@ -185,14 +182,47 @@ export default function HeroCanvas() {
       renderer.render(scene, camera);
     };
 
-    animate();
+    const startLoop = () => {
+      if (!isRunning && shouldAnimate()) {
+        isRunning = true;
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      isTabActive = !document.hidden;
+      if (shouldAnimate()) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisible = entry.isIntersecting;
+          if (shouldAnimate()) {
+            startLoop();
+          } else {
+            stopLoop();
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
+
+    // Initial startup
+    startLoop();
 
     return () => {
+      stopLoop();
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       observer.disconnect();
-      cancelAnimationFrame(animationFrameId);
       if (renderer && renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }

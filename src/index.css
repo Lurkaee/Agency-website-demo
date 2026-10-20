@@ -186,6 +186,10 @@ img {
   outline-offset: 3px;
 }
 
+[tabindex="-1"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Screen Reader Only Utility */
 .sr-only {
   position: absolute;
@@ -1181,7 +1185,8 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   margin-top: 18px;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -2494,7 +2499,11 @@ img {
     display: inline-flex;
   }
 
-  .work-cards-grid,
+  .work-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
   .project-gallery-columns {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
