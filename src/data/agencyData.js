@@ -36,9 +36,9 @@ export const PROJECTS = [
       }
     ],
     stats: [
-      { label: 'Scale', value: '350 VIP Guests' },
+      { label: 'Indicative Scale', value: '350 Capacity Chamber' },
       { label: 'Acoustics', value: 'Spatial Audio Array' },
-      { label: 'Latency', value: 'Zero-Latency Volumetrics' }
+      { label: 'Scenography', value: 'Volumetric Laser Grid' }
     ]
   },
   {
@@ -78,9 +78,9 @@ export const PROJECTS = [
       }
     ],
     stats: [
-      { label: 'Capacity', value: '800 Global Leaders' },
-      { label: 'Resolution', value: 'Broadcast 4K HDR' },
-      { label: 'Stages', value: '4 Parallel Environments' }
+      { label: 'Indicative Scale', value: '800 Delegate Amphitheatre' },
+      { label: 'Proscenium', value: 'Curved LED Proscenium' },
+      { label: 'Environments', value: '4 Parallel Tracks' }
     ]
   },
   {
@@ -120,9 +120,9 @@ export const PROJECTS = [
       }
     ],
     stats: [
-      { label: 'Attendance', value: '180 Executive Guests' },
-      { label: 'Format', value: 'Architectural Seated Gala' },
-      { label: 'Production', value: 'Custom Fabrication' }
+      { label: 'Indicative Scale', value: '180 Seated Architecture' },
+      { label: 'Format', value: 'Curated Culinary Gala' },
+      { label: 'Scenography', value: 'Bespoke Suspended Lighting' }
     ]
   }
 ];
@@ -174,22 +174,22 @@ export const SERVICES = [
 
 export const TESTIMONIALS = [
   {
-    quote: 'Algoryxz transformed our high-stakes product reveal into a sensory benchmark. The volumetric laser architecture and spatial flow commanded complete authority from our international delegates.',
-    author: 'Chief Brand Officer',
-    context: 'Global Autonomous Systems Group · Brand Activation',
-    badge: 'BRAND ACTIVATION · ILLUSTRATIVE SAMPLE FEEDBACK'
+    quote: 'Every physical activation must communicate clear narrative intent. When lighting, volume, and material texture operate in harmony, brand concepts cease to be abstract presentations and become tangible environments.',
+    author: 'Space as a Narrative Medium',
+    context: 'Curatorial Standard 01 · Architectural Scenography',
+    badge: 'CURATORIAL PHILOSOPHY'
   },
   {
-    quote: 'In twelve years of curating international tech symposia, I have never experienced a bump-in this calm and an execution this razor-sharp. Our attendees are still citing the curved proscenium stage.',
-    author: 'Executive Vice President of Experiences',
-    context: 'Next-Gen Enterprise Computing · Annual Summit',
-    badge: 'GLOBAL SUMMIT · ILLUSTRATIVE SAMPLE FEEDBACK'
+    quote: 'Impact is achieved through intentional curation rather than sensory overload. By prioritizing uncompromised acoustics, sightlines, and purposeful lighting transitions, we focus attendee attention where it matters most.',
+    author: 'Deliberate Sensory Restraint',
+    context: 'Curatorial Standard 02 · Lighting & Acoustics',
+    badge: 'CURATORIAL PHILOSOPHY'
   },
   {
-    quote: 'Algoryxz brought sheer intellectual and aesthetic power to our executive gala. They turned raw spatial architecture into an intimate, unforgettable evening for 180 global leaders.',
-    author: 'Managing Director of Global Communications',
-    context: 'Private Equity & Venture Summit · Executive Gala',
-    badge: 'CORPORATE EXPERIENCE · ILLUSTRATIVE SAMPLE FEEDBACK'
+    quote: 'Creative ambition requires flawless operational rigor. From initial architectural feasibility to live show calling, steady backstage direction ensures the experience unfolds with absolute elegance.',
+    author: 'Execution Discipline',
+    context: 'Curatorial Standard 03 · Production Stewardship',
+    badge: 'CURATORIAL PHILOSOPHY'
   }
 ];
 

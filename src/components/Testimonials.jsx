@@ -26,12 +26,12 @@ export default function Testimonials() {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.55 }}
         >
-          <p className="eyebrow" id="testimonials-headline">05 / INDUSTRY CRITIQUE & PERSPECTIVES</p>
+          <p className="eyebrow" id="testimonials-headline">05 / SPATIAL PHILOSOPHY & CURATORIAL TENETS</p>
           <div className="quote-giant-mark" aria-hidden="true">
             “
           </div>
           <span className="concept-badge" style={{ marginTop: '16px', display: 'inline-block' }}>
-            SAMPLE CONCEPT FEEDBACK
+            CURATORIAL STANDARDS
           </span>
         </motion.div>
 

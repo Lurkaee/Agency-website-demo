@@ -39,7 +39,7 @@ export default function AgencyIntro() {
             transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           >
             <p className="intro-lead-text">
-              We’re Algoryxz Agency & Co. An international creative experience collective translating ambitious brand briefs into visceral environments that people feel, remember, and amplify. Algorithmic rigor. Meticulous spatial engineering. A genuinely extraordinary team by your side every step of the journey.
+              We’re Algoryxz Agency & Co. An international creative experience collective translating ambitious brand briefs into visceral environments that people feel, remember, and amplify. Algorithmic rigor. Meticulous spatial design and production craft. A dedicated creative team by your side every step of the journey.
             </p>
 
             <div>
@@ -54,7 +54,7 @@ export default function AgencyIntro() {
             </div>
           </motion.div>
 
-          {/* Agency Key Pillars / Metrics with balanced 4-column layout */}
+          {/* Agency Core Practice Disciplines */}
           <div className="intro-metrics-row">
             <motion.div
               className="metric-card"
@@ -63,8 +63,11 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <span className="metric-number">360<span>°</span></span>
-              <span className="metric-label">Spatial Scenography & Light</span>
+              <span className="metric-number">01</span>
+              <span className="metric-label">Spatial Scenography</span>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
+                Stage geometry, physical guest flow, and architectural environments.
+              </p>
             </motion.div>
             <motion.div
               className="metric-card"
@@ -73,8 +76,11 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.18 }}
             >
-              <span className="metric-number">06</span>
-              <span className="metric-label">End-to-End Delivery Phases</span>
+              <span className="metric-number">02</span>
+              <span className="metric-label">Lighting & Acoustics</span>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
+                Volumetric light arrays, spatial sound composition, and dynamic pacing.
+              </p>
             </motion.div>
             <motion.div
               className="metric-card"
@@ -83,8 +89,11 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.26 }}
             >
-              <span className="metric-number">100<span>%</span></span>
-              <span className="metric-label">Bespoke Architectural Engineering</span>
+              <span className="metric-number">03</span>
+              <span className="metric-label">Technical Direction</span>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
+                Kinetic rigging, display systems, and precise live show calling.
+              </p>
             </motion.div>
             <motion.div
               className="metric-card"
@@ -93,8 +102,11 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.34 }}
             >
-              <span className="metric-number">GLOBAL</span>
-              <span className="metric-label">Direct Production Dispatch</span>
+              <span className="metric-number">04</span>
+              <span className="metric-label">Production Stewardship</span>
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
+                Master scheduling, supplier governance, and turnkey strike oversight.
+              </p>
             </motion.div>
           </div>
 

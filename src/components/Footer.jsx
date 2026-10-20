@@ -62,35 +62,35 @@ export default function Footer({ onNavigate }) {
           </p>
         </div>
 
-        {/* Global Coordinates & Dispatch Telemetry */}
+        {/* Core Practice Disciplines */}
         <div className="footer-telemetry-col">
-          <span className="eyebrow eyebrow-light">OPERATIONAL NETWORK & HUBS</span>
+          <span className="eyebrow eyebrow-light">CORE PRACTICE DISCIPLINES</span>
           <div className="footer-hub-list">
             <div className="footer-hub-item">
-              <span className="hub-city">LONDON / ARCHITECTURE</span>
-              <span className="hub-coord">51.5074° N, 0.1278° W</span>
+              <span className="hub-city">SPATIAL SCENOGRAPHY</span>
+              <span className="hub-coord">Physical staging & spatial narrative</span>
             </div>
             <div className="footer-hub-item">
-              <span className="hub-city">NEW YORK / SCENOGRAPHY</span>
-              <span className="hub-coord">40.7128° N, 74.0060° W</span>
+              <span className="hub-city">VOLUMETRIC LIGHT & SOUND</span>
+              <span className="hub-coord">Acoustic curation & light architecture</span>
             </div>
             <div className="footer-hub-item">
-              <span className="hub-city">TOKYO / LIGHT & TECH</span>
-              <span className="hub-coord">35.6762° N, 139.6503° E</span>
+              <span className="hub-city">EXECUTIVE PRODUCTION</span>
+              <span className="hub-coord">Turnkey logistics & live show calling</span>
             </div>
           </div>
         </div>
 
-        {/* International Context & Proposal Trigger */}
+        {/* Project Dialogue & Proposal Trigger */}
         <div className="footer-contact-block">
-          <span className="eyebrow eyebrow-light">GLOBAL COMMISSION STATUS</span>
+          <span className="eyebrow eyebrow-light">PROJECT DIALOGUE</span>
           <div className="footer-status-pill">
             <span className="status-dot-pulse" aria-hidden="true" />
-            <span>INTAKE ACTIVE · Q3/Q4 SCHEDULE</span>
+            <span>BRIEF INTAKE ACTIVE</span>
           </div>
 
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--text-light-subtle)', margin: '14px 0 20px', lineHeight: '1.6' }}>
-            We review new briefs within 24 business hours. No generic sales packages.
+            Direct collaboration with creative directors and technical producers on bespoke experiential briefs.
           </p>
 
           <a

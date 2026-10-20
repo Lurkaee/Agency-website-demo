@@ -390,7 +390,7 @@ export default function ProposalSection({ onNavigate }) {
                 </p>
                 <h3 className="success-headline">Thank you, {formData.name.split(' ')[0]}</h3>
                 <p className="success-copy">
-                  We’ve received your <strong>{formData.event_type}</strong> brief for <strong>{formData.company}</strong>. Our executive production directors are evaluating your spatial parameters and will connect with <strong>{formData.email}</strong> within 1 business day.
+                  Parameters recorded for your <strong>{formData.event_type}</strong> brief for <strong>{formData.company}</strong>.
                 </p>
 
                 {/* Transparent submission notice */}
