@@ -60,7 +60,8 @@ export default function ProjectDetail({ slug, onNavigate }) {
         transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         style={{ overflow: 'hidden', borderRadius: 'var(--radius-sm)' }}
       >
-        <img
+        <motion.img
+          layoutId={`project-cover-${project.slug}`}
           src={project.heroImage}
           alt={project.alt}
           className="project-cover-banner"

@@ -77,7 +77,8 @@ export default function SelectedWork({ onNavigate }) {
                 aria-label={`Explore ${project.title}`}
               >
                 <span className="work-card-num">{project.number}</span>
-                <img
+                <motion.img
+                  layoutId={`project-cover-${project.slug}`}
                   src={project.heroImage}
                   alt={project.alt}
                   loading="lazy"

@@ -54,7 +54,7 @@ export default function AgencyIntro() {
             </div>
           </motion.div>
 
-          {/* Agency Key Pillars / Metrics with staggered entrance */}
+          {/* Agency Key Pillars / Metrics with balanced 4-column layout */}
           <div className="intro-metrics-row">
             <motion.div
               className="metric-card"
@@ -71,7 +71,7 @@ export default function AgencyIntro() {
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.18 }}
             >
               <span className="metric-number">06</span>
               <span className="metric-label">End-to-End Delivery Phases</span>
@@ -81,12 +81,53 @@ export default function AgencyIntro() {
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-30px' }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.26 }}
             >
               <span className="metric-number">100<span>%</span></span>
               <span className="metric-label">Bespoke Architectural Engineering</span>
             </motion.div>
+            <motion.div
+              className="metric-card"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-30px' }}
+              transition={{ duration: 0.5, delay: 0.34 }}
+            >
+              <span className="metric-number">GLOBAL</span>
+              <span className="metric-label">Direct Production Dispatch</span>
+            </motion.div>
           </div>
+
+          {/* Architectural Technical Parameters Strip */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            style={{
+              marginTop: '32px',
+              padding: '16px 20px',
+              borderTop: '1px solid var(--line-light)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '12px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.6875rem',
+              letterSpacing: '0.12em',
+              color: 'var(--text-ink-subtle)',
+              textTransform: 'uppercase'
+            }}
+          >
+            <span>STRUCTURAL RIGOR</span>
+            <span>✦</span>
+            <span>VOLUMETRIC LIGHTING</span>
+            <span>✦</span>
+            <span>DYNAMIC SCENOGRAPHY</span>
+            <span>✦</span>
+            <span>ACOUSTIC MASTERY</span>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -1,5 +1,9 @@
+import { lazy, Suspense } from 'react';
 import { ArrowUpRight, ArrowDown, Play } from 'lucide-react';
-import HeroCanvas from './HeroCanvas';
+import { motion } from 'motion/react';
+
+// Lazy-load Three.js canvas to dramatically reduce initial JavaScript execution blocking
+const HeroCanvas = lazy(() => import('./HeroCanvas'));
 
 export default function Hero({ onOpenCinema }) {
   const scrollTo = (id) => {
@@ -9,8 +13,10 @@ export default function Hero({ onOpenCinema }) {
 
   return (
     <section className="hero-section" aria-labelledby="hero-title">
-      {/* Interactive Algorithmic 3D Canvas */}
-      <HeroCanvas />
+      {/* Interactive Algorithmic 3D Canvas with Lightweight Zero-Shift Fallback */}
+      <Suspense fallback={<div className="hero-canvas-fallback" aria-hidden="true" />}>
+        <HeroCanvas />
+      </Suspense>
 
       {/* Hero Photography Layer */}
       <div className="hero-photo-wrap">
@@ -27,23 +33,39 @@ export default function Hero({ onOpenCinema }) {
       <div className="hero-content">
         <div>
           {/* Eyebrow Kicker */}
-          <div className="hero-kicker-row">
+          <motion.div
+            className="hero-kicker-row"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className="hero-kicker-badge">
               <span>CONTEMPORARY CREATIVE EXPERIENCE AGENCY</span>
               <span className="spark-star" aria-hidden="true">✦</span>
             </span>
-          </div>
+          </motion.div>
 
           {/* Signature Headline */}
-          <h1 id="hero-title" className="hero-title">
+          <motion.h1
+            id="hero-title"
+            className="hero-title"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
             ARCHITECTING<br />
             EXPERIENCES THAT DEFY<br />
             <span>THE EXPECTED.</span>
-          </h1>
+          </motion.h1>
         </div>
 
         {/* Interactive Row: Supporting copy, CTA & Cinema reel trigger */}
-        <div className="hero-interactive-row">
+        <motion.div
+          className="hero-interactive-row"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        >
           <div>
             <p className="hero-subheading">
               From algorithmic strategy to tactile reality. We conceive, design, and produce experiential marketing, corporate environments, product launches, and brand activations worldwide.
@@ -77,10 +99,15 @@ export default function Hero({ onOpenCinema }) {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Baseline Metadata & Scroll Prompt */}
-        <div className="hero-baseline">
+        <motion.div
+          className="hero-baseline"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+        >
           <span>SPATIAL DESIGN · BRAND ACTIVATIONS · GLOBAL SUMMITS</span>
           <a
             href="#intro"
@@ -94,7 +121,7 @@ export default function Hero({ onOpenCinema }) {
             <span>SCROLL TO EXPLORE</span>
             <ArrowDown size={14} />
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

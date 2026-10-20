@@ -35,6 +35,38 @@ export default function AboutTeam() {
             <span>BEHIND EVERY MONUMENTAL MOMENT</span>
             <span>THE COLLECTIVE.</span>
           </div>
+
+          <div
+            style={{
+              marginTop: '16px',
+              padding: '16px 20px',
+              background: 'var(--bg-paper-alt)',
+              borderRadius: 'var(--radius-xs)',
+              border: '1px solid var(--line-light)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.6875rem'
+            }}
+          >
+            <div>
+              <span style={{ color: 'var(--text-ink-subtle)', display: 'block', fontSize: '0.5625rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                PRIMARY DISCIPLINES
+              </span>
+              <strong style={{ color: 'var(--text-ink)', letterSpacing: '0.04em' }}>
+                SPATIAL · LIGHTING · ACOUSTICS · PRODUCTION
+              </strong>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <span style={{ color: 'var(--text-ink-subtle)', display: 'block', fontSize: '0.5625rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                METHODOLOGY
+              </span>
+              <strong style={{ color: 'var(--accent-lime-deep)' }}>
+                ARCHITECTURAL RIGOR
+              </strong>
+            </div>
+          </div>
         </motion.div>
 
         {/* Right Column: Editorial Copy & Principles */}

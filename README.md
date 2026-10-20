@@ -50,10 +50,10 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/Lurkaee/agency-website-demo.git
+git clone https://github.com/Lurkaee/Agency-website-demo.git
 
 # Navigate into project directory
-cd agency-website-demo
+cd Agency-website-demo
 
 # Install dependencies
 npm install

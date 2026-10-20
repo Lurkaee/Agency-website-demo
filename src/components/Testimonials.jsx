@@ -50,21 +50,57 @@ export default function Testimonials() {
                   “{activeTestimonial.quote}”
                 </blockquote>
 
-                <div className="testimonial-author-meta">
-                  <p className="testimonial-author-name">{activeTestimonial.author}</p>
-                  <p className="testimonial-author-context">{activeTestimonial.context}</p>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', letterSpacing: '0.12em', color: 'var(--text-ink-subtle)', display: 'block', marginTop: '6px' }}>
-                    {activeTestimonial.badge}
-                  </span>
+                <div className="testimonial-author-meta" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <div
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '50%',
+                      background: 'rgba(212, 255, 50, 0.12)',
+                      border: '1px solid rgba(212, 255, 50, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--accent-lime-deep)',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '0.8125rem',
+                      fontWeight: 700,
+                      flexShrink: 0
+                    }}
+                  >
+                    0{currentIndex + 1}
+                  </div>
+                  <div>
+                    <p className="testimonial-author-name">{activeTestimonial.author}</p>
+                    <p className="testimonial-author-context">{activeTestimonial.context}</p>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', letterSpacing: '0.12em', color: 'var(--text-ink-subtle)', display: 'block', marginTop: '4px' }}>
+                      {activeTestimonial.badge}
+                    </span>
+                  </div>
                 </div>
               </motion.div>
             </AnimatePresence>
           </div>
 
           <div className="testimonial-controls-bar">
-            <span className="testimonial-progress-indicator">
-              0{currentIndex + 1} / 0{TESTIMONIALS.length}
-            </span>
+            {/* Interactive pagination tracks */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              {TESTIMONIALS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentIndex(i)}
+                  aria-label={`Jump to review 0${i + 1}`}
+                  style={{
+                    height: '4px',
+                    width: currentIndex === i ? '24px' : '10px',
+                    borderRadius: '2px',
+                    background: currentIndex === i ? 'var(--accent-lime-deep)' : 'var(--line-light-strong)',
+                    transition: 'all 0.25s ease',
+                    cursor: 'pointer'
+                  }}
+                />
+              ))}
+            </div>
 
             <div className="testimonial-arrow-buttons">
               <button
