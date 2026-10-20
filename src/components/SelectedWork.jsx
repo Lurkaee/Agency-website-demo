@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ArrowUpRight, Info } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { PROJECTS } from '../data/agencyData';
 import KineticHeading from './KineticHeading';
 import RollingDigits from './RollingDigits';
@@ -8,6 +8,7 @@ import SectionGlyph from './SectionGlyph';
 
 export default function SelectedWork({ onNavigate }) {
   const [activeCategory, setActiveCategory] = useState('All Experiences');
+  const reduceMotion = useReducedMotion();
 
   const categories = ['All Experiences', 'Brand Activations', 'Global Summits', 'Corporate Experiences'];
 
@@ -84,12 +85,25 @@ export default function SelectedWork({ onNavigate }) {
                 aria-label={`Explore ${project.title}`}
               >
                 <span className="work-card-num"><RollingDigits value={project.number} delay={idx * 0.04} /></span>
-                <motion.img
-                  layoutId={`project-cover-${project.slug}`}
-                  src={project.heroImage}
-                  alt={project.alt}
-                  loading="lazy"
-                />
+                <motion.div
+                  className="work-card-image-reveal"
+                  initial={reduceMotion ? false : { clipPath: 'inset(0 0 100% 0)', y: 20, opacity: 0.72 }}
+                  whileInView={reduceMotion ? undefined : { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1 }}
+                  viewport={{ once: true, amount: 0.18, margin: '0px 0px -5% 0px' }}
+                  transition={{
+                    duration: reduceMotion ? 0 : 0.88,
+                    delay: reduceMotion ? 0 : Math.min(idx * 0.055, 0.22),
+                    ease: [0.16, 1, 0.3, 1]
+                  }}
+                  style={{ position: 'absolute', inset: 0 }}
+                >
+                  <motion.img
+                    layoutId={`project-cover-${project.slug}`}
+                    src={project.heroImage}
+                    alt={project.alt}
+                    loading="lazy"
+                  />
+                </motion.div>
                 <div className="work-card-action" aria-hidden="true">
                   <ArrowUpRight size={20} />
                 </div>
