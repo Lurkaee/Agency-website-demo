@@ -60,7 +60,7 @@ export default function App() {
     } else if (currentPath === '/403') {
       document.title = '403 Restricted Zone — Algoryxz Agency & Co.';
     } else {
-      document.title = 'Algoryxz Agency & Co. — Spatial Design & Brand Experiences';
+      document.title = '404 Coordinate Not Found — Algoryxz Agency & Co.';
     }
   }, [currentPath]);
 
