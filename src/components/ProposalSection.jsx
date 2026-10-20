@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { ArrowUpRight, Check, Loader2, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
+import KineticHeading from './KineticHeading';
+import RollingDigits from './RollingDigits';
+import SectionGlyph from './SectionGlyph';
 
 export default function ProposalSection({ onNavigate }) {
   const [formData, setFormData] = useState({
@@ -117,12 +120,16 @@ export default function ProposalSection({ onNavigate }) {
         {/* Left Side: Editorial Prompt */}
         <div className="proposal-intro">
           <div>
-            <p className="eyebrow eyebrow-light">06 / INITIATE A COLLABORATION</p>
-            <h2 id="proposal-headline" className="proposal-intro-title">
-              Let’s architect<br />
-              something<br />
-              <span>iconic.</span>
-            </h2>
+            <p className="eyebrow eyebrow-light"><RollingDigits value="06" delay={0.24} /> / INITIATE A COLLABORATION <SectionGlyph light /></p>
+            <KineticHeading
+              id="proposal-headline"
+              className="proposal-intro-title"
+              lines={[
+                { text: 'Let’s architect' },
+                { text: 'something' },
+                { text: 'iconic.', accent: true }
+              ]}
+            />
 
             <p className="proposal-copy-lead">
               Have a monumental concept? An upcoming product reveal?<br />

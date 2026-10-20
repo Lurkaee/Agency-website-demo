@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { TESTIMONIALS } from '../data/agencyData';
+import RollingDigits from './RollingDigits';
+import SectionGlyph from './SectionGlyph';
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,10 +28,17 @@ export default function Testimonials() {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.55 }}
         >
-          <p className="eyebrow" id="testimonials-headline">05 / SPATIAL PHILOSOPHY & CURATORIAL TENETS</p>
-          <div className="quote-giant-mark" aria-hidden="true">
+          <p className="eyebrow" id="testimonials-headline"><RollingDigits value="05" delay={0.2} /> / SPATIAL PHILOSOPHY & CURATORIAL TENETS <SectionGlyph /></p>
+          <motion.div
+            className="quote-giant-mark"
+            aria-hidden="true"
+            initial={{ opacity: 0, y: 18, rotate: -8 }}
+            whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+          >
             “
-          </div>
+          </motion.div>
           <span className="concept-badge" style={{ marginTop: '16px', display: 'inline-block' }}>
             CURATORIAL STANDARDS
           </span>
@@ -68,7 +77,7 @@ export default function Testimonials() {
                       flexShrink: 0
                     }}
                   >
-                    0{currentIndex + 1}
+                    <RollingDigits key={currentIndex} value={String(currentIndex + 1).padStart(2, '0')} delay={0.03} />
                   </div>
                   <div>
                     <p className="testimonial-author-name">{activeTestimonial.author}</p>
