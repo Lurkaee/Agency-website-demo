@@ -2422,6 +2422,25 @@ img {
   }
 }
 
+/* Mid-sized laptop screens need a two-column footer before mobile stacking. */
+@media (min-width: 769px) and (max-width: 920px) {
+  .footer-top-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+    row-gap: 36px;
+  }
+
+  .footer-contact-block {
+    grid-column: 1 / -1;
+    max-width: 620px;
+  }
+
+  .footer-contact-block a.footer-contact-cta {
+    width: fit-content;
+    max-width: 100%;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --story-edge: 64px;
