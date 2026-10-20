@@ -111,11 +111,11 @@ export default function SelectedWork({ onNavigate }) {
       </div>
 
       {/* Projects Grid with AnimatePresence filtering & staggered entrances */}
-      <motion.div layout className="work-cards-grid">
+      <motion.div layout={!reduceMotion} className="work-cards-grid">
         <AnimatePresence mode="popLayout">
           {filteredProjects.map((project, idx) => (
             <motion.article
-              layout
+              layout={!reduceMotion}
               key={project.slug}
               className="work-card"
               initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}

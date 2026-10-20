@@ -1608,9 +1608,14 @@ img {
    SECTION F: TESTIMONIALS
    ========================================================================== */
 .testimonials-section {
-  /* Translucent paper to parchment transition */
+  /* Translucent paper to dark void transition confined strictly to bottom padding */
   background:
-    linear-gradient(180deg, rgba(248, 247, 244, 0.87) 0%, rgba(18, 20, 27, 0.82) 100%);
+    linear-gradient(
+      180deg,
+      rgba(248, 247, 244, 0.88) 0%,
+      rgba(248, 247, 244, 0.88) calc(100% - clamp(72px, 7vw, 110px)),
+      rgba(18, 20, 27, 0.85) 100%
+    );
   position: relative;
   z-index: 1;
 }
