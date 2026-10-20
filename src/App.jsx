@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useReducedMotion, useScroll, useSpring } from 'motion/react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import AgencyIntro from './components/AgencyIntro';
@@ -18,31 +18,29 @@ import ForbiddenPage from './pages/ForbiddenPage';
 export default function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname || '/');
   const [isCinemaOpen, setIsCinemaOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isNavigating, setIsNavigating] = useState(false);
+  const pendingHashRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
+
+  // Scroll reading progress powered directly via Motion springs without root re-renders
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   // Synchronise browser back/forward history
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname || '/');
+      const path = window.location.pathname || '/';
+      const hash = window.location.hash || null;
+      pendingHashRef.current = hash;
+      setCurrentPath(path);
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-  // Reading progress indicator
-  useEffect(() => {
-    const updateScroll = () => {
-      const scrollY = window.scrollY;
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        setScrollProgress((scrollY / totalHeight) * 100);
-      }
-    };
-
-    window.addEventListener('scroll', updateScroll, { passive: true });
-    return () => window.removeEventListener('scroll', updateScroll);
   }, []);
 
   // Update document title dynamically based on route
@@ -64,34 +62,58 @@ export default function App() {
     }
   }, [currentPath]);
 
-  const navigate = (path) => {
-    if (path === currentPath) return;
-    window.history.pushState({}, '', path);
-    setCurrentPath(path);
+  const navigate = (rawTarget) => {
+    let targetPath = rawTarget;
+    let targetHash = null;
+
+    if (rawTarget.includes('#')) {
+      const parts = rawTarget.split('#');
+      targetPath = parts[0] || '/';
+      targetHash = '#' + parts[1];
+    }
+
+    if (targetPath === currentPath) {
+      if (targetHash) {
+        const el = document.querySelector(targetHash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+      return;
+    }
+
+    pendingHashRef.current = targetHash;
+    const nextUrl = targetHash ? `${targetPath}${targetHash}` : targetPath;
+    window.history.pushState({}, '', nextUrl);
+    setIsNavigating(true);
+    setCurrentPath(targetPath);
   };
 
-  // Coordinated route transition variants
+  // Coordinated cinematic route transition variants
   const pageVariants = {
     initial: (reduced) => ({
       opacity: 0,
-      y: reduced ? 0 : 16,
-      scale: reduced ? 1 : 0.995
+      y: reduced ? 0 : 20,
+      scale: reduced ? 1 : 0.992,
+      filter: reduced ? 'none' : 'blur(6px)'
     }),
     animate: {
       opacity: 1,
       y: 0,
       scale: 1,
+      filter: 'blur(0px)',
       transition: {
-        duration: 0.4,
-        ease: [0.22, 1, 0.36, 1]
+        duration: 0.42,
+        ease: [0.16, 1, 0.3, 1]
       }
     },
     exit: (reduced) => ({
       opacity: 0,
-      y: reduced ? 0 : -12,
-      scale: reduced ? 1 : 0.995,
+      y: reduced ? 0 : -14,
+      scale: reduced ? 1 : 0.992,
+      filter: reduced ? 'none' : 'blur(4px)',
       transition: {
-        duration: 0.26,
+        duration: 0.28,
         ease: [0.22, 1, 0.36, 1]
       }
     })
@@ -155,21 +177,51 @@ export default function App() {
 
   return (
     <div id="top" className="site-canvas">
-      {/* Viewport Reading Progress Bar */}
-      <div
+      {/* High-Performance Smooth Reading Progress Bar */}
+      <motion.div
         className="reading-progress-bar"
-        style={{ width: `${scrollProgress}%` }}
+        style={{ scaleX }}
         aria-hidden="true"
       />
 
+      {/* Cinematic Route Navigation Scanline */}
+      <AnimatePresence>
+        {isNavigating && !prefersReducedMotion && (
+          <motion.div
+            key="route-scanline"
+            className="route-transition-scanline"
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
+
       <Header currentPath={currentPath} onNavigate={navigate} />
 
-      {/* Shared Continuous Page Transitions with onExitComplete scroll-reset */}
+      {/* Shared Continuous Page Transitions with onExitComplete scroll orchestration */}
       <AnimatePresence
         mode="wait"
         initial={false}
         onExitComplete={() => {
-          window.scrollTo({ top: 0, behavior: 'instant' });
+          setIsNavigating(false);
+          const hash = pendingHashRef.current;
+          pendingHashRef.current = null;
+
+          if (hash) {
+            setTimeout(() => {
+              const el = document.querySelector(hash);
+              if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+              }
+            }, 60);
+          } else {
+            window.scrollTo({ top: 0, behavior: 'instant' });
+          }
         }}
       >
         <motion.div

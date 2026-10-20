@@ -107,16 +107,32 @@ body {
   position: relative;
 }
 
-/* Reading Progress Bar */
+/* Reading Progress Bar (Motion ScaleX) */
 .reading-progress-bar {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--accent-lime), var(--accent-cobalt));
   z-index: 1000;
-  transition: width 0.1s ease-out;
   box-shadow: 0 0 10px var(--accent-lime-glow);
+  transform-origin: 0%;
+  pointer-events: none;
+}
+
+/* Route Navigation Transition Scanline */
+.route-transition-scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent-lime);
+  box-shadow: 0 0 16px var(--accent-lime);
+  z-index: 1050;
+  transform-origin: 0%;
+  pointer-events: none;
 }
 
 /* Custom Selection */

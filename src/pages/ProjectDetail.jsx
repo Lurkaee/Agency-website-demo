@@ -8,11 +8,7 @@ export default function ProjectDetail({ slug, onNavigate }) {
   const [activeImage, setActiveImage] = useState(null);
 
   const scrollToProposal = () => {
-    onNavigate('/');
-    setTimeout(() => {
-      const el = document.getElementById('proposal');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 150);
+    onNavigate('/#proposal');
   };
 
   return (
@@ -26,11 +22,7 @@ export default function ProjectDetail({ slug, onNavigate }) {
         transition={{ duration: 0.4 }}
         onClick={(e) => {
           e.preventDefault();
-          onNavigate('/');
-          setTimeout(() => {
-            const el = document.getElementById('work');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
+          onNavigate('/#work');
         }}
       >
         <ArrowLeft size={16} />
@@ -42,7 +34,7 @@ export default function ProjectDetail({ slug, onNavigate }) {
         className="project-hero-header"
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
       >
         <p className="eyebrow" style={{ color: 'var(--accent-lime-deep)' }}>
           {project.number} / {project.category.toUpperCase()}
@@ -53,21 +45,17 @@ export default function ProjectDetail({ slug, onNavigate }) {
         </p>
       </motion.header>
 
-      {/* Main Cover Banner */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        style={{ overflow: 'hidden', borderRadius: 'var(--radius-sm)' }}
-      >
+      {/* Main Cover Banner with shared Layout Transition */}
+      <div style={{ overflow: 'hidden', borderRadius: 'var(--radius-sm)' }}>
         <motion.img
           layoutId={`project-cover-${project.slug}`}
           src={project.heroImage}
           alt={project.alt}
           className="project-cover-banner"
           fetchPriority="high"
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
         />
-      </motion.div>
+      </div>
 
       {/* Overview & Deliverables Specifications */}
       <motion.section

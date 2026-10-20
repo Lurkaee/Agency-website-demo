@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://agency-website-demo.vercel.app/</loc>
+    <loc>https://agency-website-zeta-one.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://agency-website-demo.vercel.app/work/the-monolith-protocol</loc>
+    <loc>https://agency-website-zeta-one.vercel.app/work/the-monolith-protocol</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agency-website-demo.vercel.app/work/luminary-nexus-summit</loc>
+    <loc>https://agency-website-zeta-one.vercel.app/work/luminary-nexus-summit</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agency-website-demo.vercel.app/work/synapse-gallery-gala</loc>
+    <loc>https://agency-website-zeta-one.vercel.app/work/synapse-gallery-gala</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://agency-website-demo.vercel.app/privacy</loc>
+    <loc>https://agency-website-zeta-one.vercel.app/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>

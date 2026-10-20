@@ -13,11 +13,7 @@ export default function Footer({ onNavigate }) {
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     } else {
-      onNavigate('/');
-      setTimeout(() => {
-        const p = document.getElementById('proposal');
-        if (p) p.scrollIntoView({ behavior: 'smooth' });
-      }, 150);
+      onNavigate('/#proposal');
     }
   };
 

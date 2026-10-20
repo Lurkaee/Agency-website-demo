@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://agency-website-demo.vercel.app/sitemap.xml
+Sitemap: https://agency-website-zeta-one.vercel.app/sitemap.xml

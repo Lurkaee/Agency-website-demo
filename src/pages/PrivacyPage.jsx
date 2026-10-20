@@ -3,11 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 export default function PrivacyPage({ onNavigate }) {
   const returnToProposal = (e) => {
     e.preventDefault();
-    onNavigate('/');
-    setTimeout(() => {
-      const el = document.getElementById('proposal');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
-    }, 150);
+    onNavigate('/#proposal');
   };
 
   return (

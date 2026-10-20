@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 
-export default function Header({ currentPath, onNavigate }) {
+export default function Header({ onNavigate }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -37,22 +37,7 @@ export default function Header({ currentPath, onNavigate }) {
   const handleLinkClick = (e, targetHref) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-
-    if (targetHref.startsWith('/#')) {
-      const hash = targetHref.replace('/', '');
-      if (currentPath !== '/') {
-        onNavigate('/');
-        setTimeout(() => {
-          const el = document.querySelector(hash);
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }, 150);
-      } else {
-        const el = document.querySelector(hash);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      onNavigate(targetHref);
-    }
+    onNavigate(targetHref);
   };
 
   return (

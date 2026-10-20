@@ -45,13 +45,7 @@ export default function NotFoundPage({ onNavigate }) {
         </button>
 
         <button
-          onClick={() => {
-            onNavigate('/');
-            setTimeout(() => {
-              const el = document.getElementById('work');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }, 100);
-          }}
+          onClick={() => onNavigate('/#work')}
           className="btn btn-outline-light"
         >
           <span>Explore selected work</span>
