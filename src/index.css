@@ -2735,6 +2735,8 @@ img {
 .section-headline .kinetic-heading-line.is-accent { color: var(--accent-lime-deep); }
 .section-headline-light .kinetic-heading-line.is-accent { color: var(--accent-lime); }
 
+.hero-title .kinetic-heading-line { display: block; }
+
 .hero-title .kinetic-heading-line,
 .hero-title .kinetic-heading-word,
 .hero-title .kinetic-heading-char { color: inherit; }
@@ -2842,10 +2844,12 @@ img {
 
 @media (prefers-reduced-motion: reduce) {
   .work-card-media::after,
-  .header-cta::after,
+  .header-cta::after {
+    display: none !important;
+  }
+
   .mobile-nav-backdrop,
   .mobile-nav-drawer {
-    display: none !important;
     transition: none !important;
     animation: none !important;
   }
