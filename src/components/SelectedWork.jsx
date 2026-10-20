@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ArrowUpRight, Info } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { PROJECTS } from '../data/agencyData';
 import KineticHeading from './KineticHeading';
 import RollingDigits from './RollingDigits';
@@ -57,6 +57,7 @@ function WorkCardImage({ src, alt, title, category }) {
 
 export default function SelectedWork({ onNavigate }) {
   const [activeCategory, setActiveCategory] = useState('All Experiences');
+  const reduceMotion = useReducedMotion();
 
   const categories = ['All Experiences', 'Brand Activations', 'Global Summits', 'Corporate Experiences'];
 
@@ -99,7 +100,7 @@ export default function SelectedWork({ onNavigate }) {
               key={cat}
               role="tab"
               aria-selected={activeCategory === cat}
-              className={`filter-pill ${activeCategory === cat ? 'active' : ''}`}
+              className={`filter-pill ${activeCategory === cat ? 'active is-active' : ''}`}
               onClick={() => setActiveCategory(cat)}
             >
               {cat}
@@ -117,11 +118,11 @@ export default function SelectedWork({ onNavigate }) {
               layout
               key={project.slug}
               className="work-card"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+              whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5, delay: reduceMotion ? 0 : idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
             >
               <a
                 href={`/work/${project.slug}`}

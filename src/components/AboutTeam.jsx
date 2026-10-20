@@ -97,14 +97,33 @@ export default function AboutTeam() {
             ]}
           />
 
-          <div className="about-paragraphs">
-            <p>
+          <motion.div
+            className="about-paragraphs"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.12, margin: '0px 0px -4% 0px' }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.16 } }
+            }}
+          >
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 22 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.62, ease: [0.16, 1, 0.3, 1] } }
+              }}
+            >
               We believe the most transformative experiences occur when intellectual ambition is coupled with uncompromising physical craftsmanship. The kind of environments where big ideas find their physical manifestation, and every sensory touchpoint commands complete engagement.
-            </p>
-            <p>
+            </motion.p>
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 22 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.62, ease: [0.16, 1, 0.3, 1] } }
+              }}
+            >
               Operating as an internationally minded creative collective, Algoryxz unites spatial designers, lighting artists, acoustic engineers, and technical producers. Your strategic objectives become our architectural challenge. Your event becomes an enduring benchmark.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
           <div className="about-values-list">
             {values.map((val, idx) => (

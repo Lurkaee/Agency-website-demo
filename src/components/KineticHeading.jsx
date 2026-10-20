@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from 'motion/react';
+import { useRef } from 'react';
+import { motion, useInView, useReducedMotion } from 'motion/react';
 
 const containerVariants = {
   hidden: {},
@@ -40,22 +41,25 @@ export default function KineticHeading({
   ...props
 }) {
   const reduceMotion = useReducedMotion();
+  const headingRef = useRef(null);
+  const isInView = useInView(headingRef, {
+    once: true,
+    amount: 0.08,
+    margin: '0px 0px -6% 0px'
+  });
   const Heading = level === 'h1' ? motion.h1 : level === 'h3' ? motion.h3 : motion.h2;
   const plainText = lines.map((line) => line.text).join(' ');
 
-  const motionProps = animateOnMount
-    ? {
-        initial: reduceMotion ? false : 'hidden',
-        animate: 'visible'
-      }
-    : {
-        initial: reduceMotion ? false : 'hidden',
-        whileInView: 'visible',
-        viewport: { once: true, amount: 0.15, margin: '0px 0px -40px 0px' }
-      };
+  // Drive the full character tree from an explicit viewport observer. This makes
+  // the reveal trigger on the heading box, not on its clipped letter children.
+  const motionProps = {
+    initial: reduceMotion ? false : 'hidden',
+    animate: reduceMotion || animateOnMount || isInView ? 'visible' : 'hidden'
+  };
 
   return (
     <Heading
+      ref={headingRef}
       id={id}
       className={('kinetic-heading ' + className).trim()}
       style={style}
