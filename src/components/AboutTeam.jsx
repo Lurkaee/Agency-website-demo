@@ -1,7 +1,11 @@
 import { ArrowUpRight } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
+import KineticHeading from './KineticHeading';
+import RollingDigits from './RollingDigits';
+import SectionGlyph from './SectionGlyph';
 
 export default function AboutTeam() {
+  const reduceMotion = useReducedMotion();
   const scrollToProposal = (e) => {
     e.preventDefault();
     const el = document.getElementById('proposal');
@@ -26,10 +30,14 @@ export default function AboutTeam() {
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <img
+          <motion.img
             src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1800&q=80"
             alt="Algoryxz creative directors and spatial technologists collaborating in studio"
             loading="lazy"
+            initial={reduceMotion ? false : { clipPath: 'inset(0 0 100% 0)' }}
+            whileInView={{ clipPath: 'inset(0 0 0% 0)' }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: reduceMotion ? 0 : 0.72, delay: reduceMotion ? 0 : 0.08, ease: [0.16, 1, 0.3, 1] }}
           />
           <div className="about-image-caption">
             <span>BEHIND EVERY MONUMENTAL MOMENT</span>
@@ -77,12 +85,17 @@ export default function AboutTeam() {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="eyebrow">04 / THE COLLECTIVE BEHIND THE CURTAIN</p>
-          <h2 id="about-headline" className="section-headline" style={{ marginTop: '16px' }}>
-            Spatial architects.<br />
-            Technical directors.<br />
-            <span>Experience makers.</span>
-          </h2>
+          <p className="eyebrow"><RollingDigits value="04" delay={0.15} /> / THE COLLECTIVE BEHIND THE CURTAIN <SectionGlyph /></p>
+          <KineticHeading
+            id="about-headline"
+            className="section-headline"
+            style={{ marginTop: '16px' }}
+            lines={[
+              { text: 'Spatial architects.' },
+              { text: 'Technical directors.' },
+              { text: 'Experience makers.', accent: true }
+            ]}
+          />
 
           <div className="about-paragraphs">
             <p>

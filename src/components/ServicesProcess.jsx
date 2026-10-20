@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { ArrowUpRight, Plus, Minus } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { SERVICES } from '../data/agencyData';
+import KineticHeading from './KineticHeading';
+import RollingDigits from './RollingDigits';
+import SectionGlyph from './SectionGlyph';
 
 export default function ServicesProcess() {
   const [openIndex, setOpenIndex] = useState(0);
@@ -27,13 +30,18 @@ export default function ServicesProcess() {
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="eyebrow eyebrow-light">03 / THE ALGORITHMIC METHODOLOGY</p>
+          <p className="eyebrow eyebrow-light"><RollingDigits value="03" delay={0.1} /> / THE ALGORITHMIC METHODOLOGY <SectionGlyph light /></p>
           <div className="rail-rule rail-rule-light" aria-hidden="true" />
 
-          <h2 id="services-headline" className="section-headline section-headline-light" style={{ marginTop: '24px' }}>
-            You architect the vision.<br />
-            <span>We engineer the reality.</span>
-          </h2>
+          <KineticHeading
+            id="services-headline"
+            className="section-headline section-headline-light"
+            style={{ marginTop: '24px' }}
+            lines={[
+              { text: 'You architect the vision.' },
+              { text: 'We engineer the reality.', accent: true }
+            ]}
+          />
 
           <p className="services-tagline">
             A nascent conceptual spark or a comprehensive master brief?<br />
@@ -100,7 +108,7 @@ export default function ServicesProcess() {
                   }}
                 >
                   <div className="service-summary-left">
-                    <span className="service-step-num">{service.step}</span>
+                    <span className="service-step-num"><RollingDigits value={service.step} delay={idx * 0.05} /></span>
                     <h3 className="service-item-title">{service.title}</h3>
                   </div>
                   <div className="service-toggle-icon" aria-hidden="true">

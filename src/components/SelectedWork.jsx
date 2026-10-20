@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { ArrowUpRight, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PROJECTS } from '../data/agencyData';
+import KineticHeading from './KineticHeading';
+import RollingDigits from './RollingDigits';
+import SectionGlyph from './SectionGlyph';
 
 export default function SelectedWork({ onNavigate }) {
   const [activeCategory, setActiveCategory] = useState('All Experiences');
@@ -23,11 +26,15 @@ export default function SelectedWork({ onNavigate }) {
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div>
-          <p className="eyebrow">02 / CURATED EXPERIENCES</p>
-          <h2 id="work-headline" className="section-headline">
-            Monumental scale.<br />
-            <span>Uncompromising precision.</span>
-          </h2>
+          <p className="eyebrow"><RollingDigits value="02" delay={0.05} /> / CURATED EXPERIENCES <SectionGlyph /></p>
+          <KineticHeading
+            id="work-headline"
+            className="section-headline"
+            lines={[
+              { text: 'Monumental scale.' },
+              { text: 'Uncompromising precision.', accent: true }
+            ]}
+          />
         </div>
         <p style={{ maxWidth: '400px', color: 'var(--text-ink-muted)', fontSize: '0.9375rem', lineHeight: '1.7' }}>
           Different briefs. The same algorithmic clarity.<br />
@@ -76,7 +83,7 @@ export default function SelectedWork({ onNavigate }) {
                 }}
                 aria-label={`Explore ${project.title}`}
               >
-                <span className="work-card-num">{project.number}</span>
+                <span className="work-card-num"><RollingDigits value={project.number} delay={idx * 0.04} /></span>
                 <motion.img
                   layoutId={`project-cover-${project.slug}`}
                   src={project.heroImage}
