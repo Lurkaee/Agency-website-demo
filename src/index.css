@@ -71,6 +71,9 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Length of the visual blend between consecutive story sections. */
+  --story-edge: 88px;
 }
 
 /* Base Reset & Smoothness */
@@ -657,6 +660,14 @@ img {
   width: 100%;
   height: 100%;
   z-index: 0;
+  overflow: hidden;
+}
+
+.hero-photo-parallax {
+  position: absolute;
+  inset: -7% 0;
+  will-change: transform;
+  pointer-events: none;
 }
 
 .hero-photo {
@@ -888,8 +899,9 @@ img {
    EDITORIAL SECTION RAIL & SHARED HEADINGS
    ========================================================================== */
 .section-wrapper {
-  padding: 100px 4.5%;
+  padding: clamp(72px, 7vw, 100px) 4.5%;
   position: relative;
+  scroll-margin-top: 104px;
 }
 
 .section-rail {
@@ -938,7 +950,10 @@ img {
    SECTION B: AGENCY INTRODUCTION
    ========================================================================== */
 .intro-section {
-  background: var(--bg-paper);
+  /* Fade out of the dark hero into the editorial paper canvas. */
+  background:
+    linear-gradient(180deg, var(--bg-ink) 0, rgba(9, 10, 13, 0.38) 30px, transparent var(--story-edge)),
+    var(--bg-paper);
 }
 
 .intro-body-grid {
@@ -995,9 +1010,11 @@ img {
    SECTION C: SELECTED WORK / CONCEPT SHOWCASE
    ========================================================================== */
 .work-section {
-  background: var(--bg-soft);
-  border-top: 1px solid var(--line-light);
-  border-bottom: 1px solid var(--line-light);
+  /* Shared edge colours connect paper -> work -> dark methodology without hard seams. */
+  background:
+    linear-gradient(180deg, var(--bg-paper) 0, rgba(248, 247, 244, 0.42) 30px, transparent var(--story-edge)),
+    linear-gradient(0deg, #202127 0, rgba(32, 33, 39, 0.42) 30px, transparent var(--story-edge)),
+    var(--bg-soft);
 }
 
 .work-header-row {
@@ -1198,9 +1215,12 @@ img {
    SECTION D: SERVICES & PROCESS NARRATIVE (ALGORYXZ)
    ========================================================================== */
 .services-section {
-  background: var(--bg-ink);
+  /* Pick up the work section charcoal edge, then blend back toward the light studio chapter. */
+  background:
+    linear-gradient(180deg, #202127 0, rgba(32, 33, 39, 0.42) 30px, transparent var(--story-edge)),
+    linear-gradient(0deg, var(--bg-paper-alt) 0, rgba(241, 239, 233, 0.46) 30px, transparent var(--story-edge)),
+    var(--bg-ink);
   color: var(--text-light);
-  border-bottom: 1px solid var(--line-dark);
 }
 
 .services-grid-layout {
@@ -1342,7 +1362,10 @@ img {
    SECTION E: TEAM / ABOUT
    ========================================================================== */
 .about-section {
-  background: var(--bg-paper);
+  /* Resolve the dark methodology edge into the light studio chapter. */
+  background:
+    linear-gradient(180deg, var(--bg-paper-alt) 0, rgba(241, 239, 233, 0.46) 30px, transparent var(--story-edge)),
+    var(--bg-paper);
 }
 
 .about-grid {
@@ -1437,9 +1460,11 @@ img {
    SECTION F: TESTIMONIALS
    ========================================================================== */
 .testimonials-section {
-  background: var(--bg-paper-alt);
-  border-top: 1px solid var(--line-light);
-  border-bottom: 1px solid var(--line-light);
+  /* Paper-to-parchment shift above; a charcoal edge prepares the final brief chapter. */
+  background:
+    linear-gradient(180deg, var(--bg-paper) 0, rgba(248, 247, 244, 0.48) 30px, transparent var(--story-edge)),
+    linear-gradient(0deg, var(--bg-ink-soft) 0, rgba(18, 20, 27, 0.42) 30px, transparent var(--story-edge)),
+    var(--bg-paper-alt);
 }
 
 .testimonials-grid {
@@ -1522,11 +1547,14 @@ img {
    SECTION G: PROPOSAL FORM SECTION (ALGORYXZ)
    ========================================================================== */
 .proposal-section {
-  background: var(--bg-ink);
+  /* Continue from the curatorial chapter and darken gradually into the final call to action. */
+  background:
+    linear-gradient(180deg, var(--bg-ink-soft) 0, rgba(18, 20, 27, 0.42) 30px, transparent var(--story-edge)),
+    linear-gradient(0deg, var(--bg-ink-deep) 0, rgba(5, 6, 8, 0.45) 30px, transparent var(--story-edge)),
+    var(--bg-ink);
   color: var(--text-light);
   position: relative;
   overflow: hidden;
-  border-top: 1px solid var(--line-dark);
 }
 
 .proposal-container {
@@ -1773,8 +1801,8 @@ img {
    SECTION H: FOOTER (ALGORYXZ)
    ========================================================================== */
 .site-footer {
+  /* Match the proposal section endpoint so the close feels like one continuous canvas. */
   background: var(--bg-ink-deep);
-  border-top: 1px solid var(--line-dark);
   padding: 80px 4.5% 36px;
   color: var(--text-light);
   position: relative;
@@ -1892,7 +1920,7 @@ img {
   gap: 12px;
 }
 
-.footer-contact-block a {
+.footer-contact-block a:not(.btn) {
   font-size: 0.8125rem;
   font-weight: 700;
   display: flex;
@@ -1901,8 +1929,24 @@ img {
   color: var(--accent-lime);
 }
 
-.footer-contact-block a:hover {
+.footer-contact-block a:not(.btn):hover {
   color: #ffffff;
+}
+
+/* The CTA has a lime background, so its label and icon must stay dark for contrast. */
+.footer-contact-block a.footer-contact-cta {
+  color: var(--bg-ink);
+  flex: 0 0 auto;
+  max-width: 100%;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.footer-contact-block a.footer-contact-cta:hover,
+.footer-contact-block a.footer-contact-cta:focus-visible {
+  color: var(--bg-ink);
+  background: #ffffff;
+  box-shadow: 0 8px 26px var(--accent-lime-glow);
 }
 
 .footer-bottom-bar {
@@ -2367,12 +2411,41 @@ img {
     grid-template-columns: 1fr;
   }
 
+  .intro-metrics-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+  }
+
   .footer-top-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+/* Mid-sized laptop screens need a two-column footer before mobile stacking. */
+@media (min-width: 769px) and (max-width: 920px) {
+  .footer-top-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+    row-gap: 36px;
+  }
+
+  .footer-contact-block {
+    grid-column: 1 / -1;
+    max-width: 620px;
+  }
+
+  .footer-contact-block a.footer-contact-cta {
+    width: fit-content;
+    max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
+  :root {
+    --story-edge: 64px;
+  }
+
   .site-header {
     height: 76px;
   }
@@ -2388,13 +2461,13 @@ img {
 
   .work-cards-grid,
   .project-gallery-columns {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .form-grid-2col,
   .about-values-list,
   .intro-metrics-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .footer-top-grid {
@@ -2416,8 +2489,30 @@ img {
 }
 
 @media (max-width: 480px) {
+  :root {
+    --story-edge: 48px;
+  }
+
   .section-wrapper {
     padding: 72px 5%;
+  }
+
+  .work-cards-grid,
+  .project-gallery-columns,
+  .form-grid-2col,
+  .about-values-list,
+  .intro-metrics-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer-contact-block a.footer-contact-cta {
+    white-space: normal;
+    gap: 10px;
+    padding: 14px 18px;
+  }
+
+  .footer-contact-block a.footer-contact-cta span {
+    overflow-wrap: anywhere;
   }
 
   .site-header {

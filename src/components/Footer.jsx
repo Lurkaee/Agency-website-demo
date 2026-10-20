@@ -91,7 +91,7 @@ export default function Footer({ onNavigate }) {
 
           <a
             href="/#proposal"
-            className="btn btn-lime"
+            className="btn btn-lime footer-contact-cta"
             style={{ width: 'fit-content' }}
             onClick={scrollToProposal}
           >
