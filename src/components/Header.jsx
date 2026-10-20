@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 
 export default function Header({ onNavigate }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const triggerBtnRef = useRef(null);
+  const closeBtnRef = useRef(null);
+  const drawerRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,20 +17,60 @@ export default function Header({ onNavigate }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const closeMenu = (restoreFocus = true) => {
+    setMobileMenuOpen(false);
+    if (restoreFocus) {
+      window.requestAnimationFrame(() => {
+        triggerBtnRef.current?.focus();
+      });
+    }
+  };
+
   useEffect(() => {
     if (mobileMenuOpen) {
       const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
 
+      // Focus close button on drawer mount
+      const focusTimer = setTimeout(() => {
+        closeBtnRef.current?.focus();
+      }, 50);
+
       const handleKeyDown = (e) => {
         if (e.key === 'Escape') {
-          setMobileMenuOpen(false);
+          e.preventDefault();
+          closeMenu(true);
+          return;
+        }
+
+        // Trap Tab key navigation within the drawer
+        if (e.key === 'Tab' && drawerRef.current) {
+          const focusables = drawerRef.current.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (focusables.length === 0) return;
+
+          const firstEl = focusables[0];
+          const lastEl = focusables[focusables.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === firstEl) {
+              e.preventDefault();
+              lastEl.focus();
+            }
+          } else {
+            if (document.activeElement === lastEl) {
+              e.preventDefault();
+              firstEl.focus();
+            }
+          }
         }
       };
 
       window.addEventListener('keydown', handleKeyDown);
 
       return () => {
+        clearTimeout(focusTimer);
         document.body.style.overflow = originalOverflow;
         window.removeEventListener('keydown', handleKeyDown);
       };
@@ -36,7 +79,7 @@ export default function Header({ onNavigate }) {
 
   const handleLinkClick = (e, targetHref) => {
     e.preventDefault();
-    setMobileMenuOpen(false);
+    closeMenu(false);
     onNavigate(targetHref);
   };
 
@@ -101,6 +144,7 @@ export default function Header({ onNavigate }) {
 
         {/* Mobile Menu Toggle Button */}
         <button
+          ref={triggerBtnRef}
           className="mobile-menu-toggle"
           onClick={() => setMobileMenuOpen(true)}
           aria-label="Open navigation menu"
@@ -114,13 +158,14 @@ export default function Header({ onNavigate }) {
       {mobileMenuOpen && (
         <div
           className="mobile-nav-backdrop"
-          onClick={() => setMobileMenuOpen(false)}
+          onClick={() => closeMenu(true)}
         />
       )}
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <aside
+          ref={drawerRef}
           className="mobile-nav-drawer"
           role="dialog"
           aria-modal="true"
@@ -131,7 +176,8 @@ export default function Header({ onNavigate }) {
               ALGORYXZ<span>AGENCY & CO.</span>
             </span>
             <button
-              onClick={() => setMobileMenuOpen(false)}
+              ref={closeBtnRef}
+              onClick={() => closeMenu(true)}
               className="icon-round-btn icon-round-btn-dark"
               aria-label="Close menu"
             >

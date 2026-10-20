@@ -31,7 +31,7 @@ export default function App() {
   });
 
   // Wait for the destination route to mount before scrolling to its anchor.
-  const scrollToHashWhenReady = useCallback((hash, frame = 0) => {
+  const scrollToHashWhenReady = useCallback(function attemptScroll(hash, frame = 0) {
     const target = document.querySelector(hash);
     if (target) {
       target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
@@ -39,7 +39,7 @@ export default function App() {
     }
 
     if (frame < 12) {
-      window.requestAnimationFrame(() => scrollToHashWhenReady(hash, frame + 1));
+      window.requestAnimationFrame(() => attemptScroll(hash, frame + 1));
       return;
     }
 

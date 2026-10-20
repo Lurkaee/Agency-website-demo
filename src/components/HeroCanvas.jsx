@@ -154,9 +154,9 @@ export default function HeroCanvas() {
     );
     observer.observe(container);
 
-    // Animation Loop with clock and adaptive frame execution
+    // Animation Loop with high-resolution timer and adaptive frame execution
     let animationFrameId;
-    const clock = new THREE.Clock();
+    const startTime = performance.now();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
@@ -164,7 +164,7 @@ export default function HeroCanvas() {
       // Only execute updates and WebGL draw calls when visible in viewport and tab is focused
       if (!isVisible || !isTabActive) return;
 
-      const elapsed = clock.getElapsedTime();
+      const elapsed = (performance.now() - startTime) * 0.001;
 
       targetX += (mouseX - targetX) * 0.05;
       targetY += (mouseY - targetY) * 0.05;
