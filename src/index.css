@@ -641,6 +641,7 @@ img {
   z-index: 0;
   opacity: 0.95;
   transition: opacity 0.4s ease;
+  background: var(--bg-ink);
 }
 
 .hero-section {
@@ -973,10 +974,11 @@ img {
    SECTION B: AGENCY INTRODUCTION
    ========================================================================== */
 .intro-section {
-  /* Fade out of the dark hero into the editorial paper canvas. */
+  /* Deliberate translucent paper wash allowing the Three.js journey to remain visible */
   background:
-    linear-gradient(180deg, var(--bg-ink) 0, rgba(9, 10, 13, 0.38) 30px, transparent var(--story-edge)),
-    var(--bg-paper);
+    linear-gradient(180deg, rgba(9, 10, 13, 0.6) 0%, rgba(248, 247, 244, 0.88) 120px, rgba(248, 247, 244, 0.86) 100%);
+  position: relative;
+  z-index: 1;
 }
 
 .intro-container {
@@ -1099,11 +1101,11 @@ img {
    SECTION C: SELECTED WORK / CONCEPT SHOWCASE
    ========================================================================== */
 .work-section {
-  /* Shared edge colours connect paper -> work -> dark methodology without hard seams. */
+  /* Deliberate translucent paper wash allowing the 3D architecture to drift beneath */
   background:
-    linear-gradient(180deg, var(--bg-paper) 0, rgba(248, 247, 244, 0.42) 30px, transparent var(--story-edge)),
-    linear-gradient(0deg, #202127 0, rgba(32, 33, 39, 0.42) 30px, transparent var(--story-edge)),
-    var(--bg-soft);
+    linear-gradient(180deg, rgba(248, 247, 244, 0.86) 0%, rgba(241, 239, 233, 0.84) 100%);
+  position: relative;
+  z-index: 1;
 }
 
 .work-header-row {
@@ -1153,7 +1155,8 @@ img {
   background: var(--line-light-strong);
 }
 
-.filter-pill.is-active {
+.filter-pill.is-active,
+.filter-pill.active {
   background: var(--bg-ink);
   color: var(--accent-lime);
   box-shadow: var(--shadow-sm);
@@ -1359,12 +1362,12 @@ img {
    SECTION D: SERVICES & PROCESS NARRATIVE (ALGORYXZ)
    ========================================================================== */
 .services-section {
-  /* Pick up the work section charcoal edge, then blend back toward the light studio chapter. */
+  /* Translucent dark midnight wash so glowing laser portal frames and particles emerge */
   background:
-    linear-gradient(180deg, #202127 0, rgba(32, 33, 39, 0.42) 30px, transparent var(--story-edge)),
-    linear-gradient(0deg, var(--bg-paper-alt) 0, rgba(241, 239, 233, 0.46) 30px, transparent var(--story-edge)),
-    var(--bg-ink);
+    linear-gradient(180deg, rgba(32, 33, 39, 0.82) 0%, rgba(9, 10, 13, 0.86) 80px, rgba(9, 10, 13, 0.88) 100%);
   color: var(--text-light);
+  position: relative;
+  z-index: 1;
 }
 
 .services-grid-layout {
@@ -1506,10 +1509,11 @@ img {
    SECTION E: TEAM / ABOUT
    ========================================================================== */
 .about-section {
-  /* Resolve the dark methodology edge into the light studio chapter. */
+  /* Translucent paper wash bridging the spatial journey */
   background:
-    linear-gradient(180deg, var(--bg-paper-alt) 0, rgba(241, 239, 233, 0.46) 30px, transparent var(--story-edge)),
-    var(--bg-paper);
+    linear-gradient(180deg, rgba(241, 239, 233, 0.86) 0%, rgba(248, 247, 244, 0.87) 100%);
+  position: relative;
+  z-index: 1;
 }
 
 .about-grid {
@@ -1604,11 +1608,11 @@ img {
    SECTION F: TESTIMONIALS
    ========================================================================== */
 .testimonials-section {
-  /* Paper-to-parchment shift above; a charcoal edge prepares the final brief chapter. */
+  /* Translucent paper to parchment transition */
   background:
-    linear-gradient(180deg, var(--bg-paper) 0, rgba(248, 247, 244, 0.48) 30px, transparent var(--story-edge)),
-    linear-gradient(0deg, var(--bg-ink-soft) 0, rgba(18, 20, 27, 0.42) 30px, transparent var(--story-edge)),
-    var(--bg-paper-alt);
+    linear-gradient(180deg, rgba(248, 247, 244, 0.87) 0%, rgba(18, 20, 27, 0.82) 100%);
+  position: relative;
+  z-index: 1;
 }
 
 .testimonials-grid {
@@ -1691,14 +1695,13 @@ img {
    SECTION G: PROPOSAL FORM SECTION (ALGORYXZ)
    ========================================================================== */
 .proposal-section {
-  /* Continue from the curatorial chapter and darken gradually into the final call to action. */
+  /* Translucent technical midnight wash revealing the terminal architectural perspective */
   background:
-    linear-gradient(180deg, var(--bg-ink-soft) 0, rgba(18, 20, 27, 0.42) 30px, transparent var(--story-edge)),
-    linear-gradient(0deg, var(--bg-ink-deep) 0, rgba(5, 6, 8, 0.45) 30px, transparent var(--story-edge)),
-    var(--bg-ink);
+    linear-gradient(180deg, rgba(18, 20, 27, 0.82) 0%, rgba(9, 10, 13, 0.85) 100%);
   color: var(--text-light);
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .proposal-container {

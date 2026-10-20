@@ -1,10 +1,12 @@
 import { ArrowUpRight } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import KineticHeading from './KineticHeading';
 import RollingDigits from './RollingDigits';
 import SectionGlyph from './SectionGlyph';
 
 export default function AgencyIntro() {
+  const shouldReduceMotion = useReducedMotion();
+
   const scrollToAbout = (e) => {
     e.preventDefault();
     const el = document.getElementById('about');
@@ -17,10 +19,11 @@ export default function AgencyIntro() {
         {/* Top Eyebrow & Chapter Header Bar */}
         <motion.div
           className="intro-chapter-bar"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          animate={shouldReduceMotion ? { opacity: 1, y: 0 } : undefined}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="intro-chapter-marker">
             <p className="eyebrow">
@@ -48,10 +51,11 @@ export default function AgencyIntro() {
         {/* Editorial Body Grid: Narrative & Manifesto */}
         <motion.div
           className="intro-body-grid"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+          animate={shouldReduceMotion ? { opacity: 1, y: 0 } : undefined}
           viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
           <p className="intro-lead-text">
             We’re Algoryxz Agency & Co. An international creative experience collective translating ambitious brand briefs into visceral environments that people feel, remember, and amplify. Algorithmic rigor. Meticulous spatial design and production craft. A dedicated creative team by your side every step of the journey.

@@ -7,8 +7,8 @@ export const PROJECTS = [
     location: 'The Subterranean Vaults (Concept)',
     client: 'Illustrative concept study',
     tagline: 'Volumetric laser architecture, kinetic glass monoliths, and sensory acoustic immersion.',
-    heroImage: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1800&q=80',
-    alt: 'Volumetric light chamber with laser architecture and reflective spatial surfaces',
+    heroImage: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1800&q=80',
+    alt: 'Volumetric laser architecture and atmospheric beams in a dark subterranean vault',
     summary: 'A multi-sensory brand experience transforming raw industrial subterranean architecture into a glowing temple of algorithmic light and sound. Designed to command total attendee presence.',
     overview: 'Conceived for an international automotive and technology reveal, The Monolith Protocol utilized synchronized volumetric laser arrays, acoustic spatial audio mapping, and cold-rolled steel monoliths to create an unforgettable physical immersion without unnecessary visual clutter.',
     services: [
@@ -20,18 +20,18 @@ export const PROJECTS = [
     ],
     gallery: [
       {
-        src: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1800&q=80',
-        alt: 'Volumetric light chamber with laser architecture',
+        src: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1800&q=80',
+        alt: 'Volumetric laser rays and atmospheric light beams illuminating the chamber threshold',
         caption: 'The threshold — architectural volumetric lighting defining the entry chamber.'
       },
       {
-        src: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1800&q=80',
-        alt: 'Futuristic exhibition environment with neon illumination',
+        src: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1800&q=80',
+        alt: 'Towering geometric glass and steel monolithic architecture reflecting ambient illumination',
         caption: 'The reveal — kinetic monolithic displays responding in real-time.'
       },
       {
-        src: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1800&q=80',
-        alt: 'Atmospheric stage lighting and laser effects',
+        src: 'https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=1800&q=80',
+        alt: 'Synchronised geometric light array and glowing atmospheric pulse',
         caption: 'The pulse — high-impact audio-visual synchronisation.'
       }
     ],
@@ -62,18 +62,18 @@ export const PROJECTS = [
     ],
     gallery: [
       {
-        src: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1800&q=80',
-        alt: 'Contemporary summit stage with amber and cobalt lighting',
+        src: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1800&q=80',
+        alt: 'Contemporary keynote proscenium with massive digital display and dramatic stage lighting',
         caption: 'The stage — curved proscenium keeping ideas at the focal point.'
       },
       {
         src: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1800&q=80',
-        alt: 'Engaged delegates in a dramatic keynote hall',
+        alt: 'Delegates gathered in a dramatic keynote hall with stage lighting',
         caption: 'The audience — designed for uncompromised sightlines and comfort.'
       },
       {
-        src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80',
-        alt: 'Brutalist contemporary venue pavilion',
+        src: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1800&q=80',
+        alt: 'Modernist circular symposium amphitheatre with stepped delegate seating and projection displays',
         caption: 'The venue — modern architectural spaces that stimulate thinking.'
       }
     ],
@@ -105,18 +105,18 @@ export const PROJECTS = [
     gallery: [
       {
         src: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1800&q=80',
-        alt: 'High-end architectural dining setting with ambient lighting',
+        alt: 'High-end architectural dining setting with ambient lighting and crystal glassware',
         caption: 'The tablescape — architectural proportions and warm luminescence.'
       },
       {
-        src: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1800&q=80',
-        alt: 'Refined event decor and glassware in dramatic focus',
+        src: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1800&q=80',
+        alt: 'Refined banquet tablescape with crystal wine glasses, ceramic dinnerware, and delicate floral accents',
         caption: 'The details — precision styling that rewards close inspection.'
       },
       {
-        src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1800&q=80',
-        alt: 'Creative production team collaborating in studio',
-        caption: 'The team — technical directors and spatial designers at work.'
+        src: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=1800&q=80',
+        alt: 'Contemporary modernist art gallery hall with polished reflective floor and clean architectural lines',
+        caption: 'The venue — expansive gallery architecture framing the evening.'
       }
     ],
     stats: [
@@ -213,15 +213,15 @@ export const CINEMA_SLIDES = [
     category: 'EXECUTIVE DINING'
   },
   {
-    src: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1800&q=80',
+    src: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1800&q=80',
     title: 'Kinetic Brand Revelations',
     subtitle: 'Immersive tactile installations commanding total presence',
     category: 'ACTIVATION'
   },
   {
-    src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1800&q=80',
-    title: 'Algoryxz Studio & Technologists',
-    subtitle: 'Creative directors, lighting artists, and technical choreographers',
+    src: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=1800&q=80',
+    title: 'Algoryxz Spatial Gallery',
+    subtitle: 'Architectural proportions and illuminated spatial environments',
     category: 'COLLECTIVE'
   }
 ];

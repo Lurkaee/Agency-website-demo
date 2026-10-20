@@ -1,11 +1,11 @@
 import { useRef } from 'react';
-import { motion, useInView, useReducedMotion } from 'motion/react';
+import { motion, useReducedMotion, useInView } from 'motion/react';
 
 const DIGIT_STRIP = '01234567890123456789';
 
 export default function RollingDigits({ value, className = '', delay = 0 }) {
   const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.15, margin: '0px 0px -40px 0px' });
+  const isInView = useInView(containerRef, { once: true, amount: 0.1, margin: '0px 0px -40px 0px' });
   const reduceMotion = useReducedMotion();
   const text = String(value);
 
@@ -56,3 +56,5 @@ export default function RollingDigits({ value, className = '', delay = 0 }) {
     </>
   );
 }
+
+

@@ -49,7 +49,7 @@ export default function BrandMark({ className = '' }) {
         animate={{
           opacity: isHovered ? 0.65 : 0.3,
           rotate: reduceMotion ? 0 : [0, 360],
-          scale: isHovered ? 1.08 : 1
+          scale: isHovered && !reduceMotion ? 1.08 : 1
         }}
         transition={{
           rotate: { repeat: Infinity, duration: 24, ease: 'linear' },

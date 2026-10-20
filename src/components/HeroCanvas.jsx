@@ -121,23 +121,23 @@ export default function HeroCanvas() {
     const portalHeight = 18;
     const portalY = -1;
 
-    // Build portal frame wireframes
+    // Build portal frame wireframes with high-clarity architectural definition
     const portalMat = new THREE.LineBasicMaterial({
-      color: 0x20293a,
+      color: 0x364862,
       transparent: true,
-      opacity: 0.55
+      opacity: 0.65
     });
 
     const laserLineMatLime = new THREE.LineBasicMaterial({
       color: 0xd4ff32,
       transparent: true,
-      opacity: 0.65
+      opacity: 0.75
     });
 
     const laserLineMatCobalt = new THREE.LineBasicMaterial({
-      color: 0x2b59ff,
+      color: 0x3b6aff,
       transparent: true,
-      opacity: 0.6
+      opacity: 0.72
     });
 
     const portalGeometries = [];
@@ -202,9 +202,9 @@ export default function HeroCanvas() {
     ];
     const railGeo = new THREE.BufferGeometry().setFromPoints(railPoints);
     const railMat = new THREE.LineBasicMaterial({
-      color: 0x2b59ff,
+      color: 0x4f75ff,
       transparent: true,
-      opacity: 0.35
+      opacity: 0.45
     });
     const rails = new THREE.LineSegments(railGeo, railMat);
     portalGroup.add(rails);
@@ -243,16 +243,63 @@ export default function HeroCanvas() {
 
     const texture = new THREE.CanvasTexture(canvas);
     const particleMat = new THREE.PointsMaterial({
-      size: 1.25,
+      size: 1.35,
       map: texture,
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      opacity: 0.65
+      opacity: 0.72
     });
 
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
+
+    // -------------------------------------------------------------
+    // Cinematic Organic Atmospheric Mist Layer (Drifting volumetric clouds)
+    // -------------------------------------------------------------
+    const mistGroup = new THREE.Group();
+    scene.add(mistGroup);
+
+    // Create a high-quality procedural soft cloud/mist texture with midnight, cobalt, and lime undertones
+    const mistCanvas = document.createElement('canvas');
+    mistCanvas.width = 128;
+    mistCanvas.height = 128;
+    const mCtx = mistCanvas.getContext('2d');
+    const mGrad = mCtx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    mGrad.addColorStop(0, 'rgba(79, 117, 255, 0.42)'); // Electric cobalt heart
+    mGrad.addColorStop(0.35, 'rgba(212, 255, 50, 0.18)'); // Subtle acid lime fringe
+    mGrad.addColorStop(0.7, 'rgba(248, 247, 244, 0.08)'); // Alabaster mist edge
+    mGrad.addColorStop(1, 'rgba(9, 10, 13, 0)');
+    mCtx.fillStyle = mGrad;
+    mCtx.beginPath();
+    mCtx.arc(64, 64, 64, 0, Math.PI * 2);
+    mCtx.fill();
+
+    const mistTexture = new THREE.CanvasTexture(mistCanvas);
+    const mistGeo = new THREE.PlaneGeometry(55, 35);
+    const mistPlanes = [];
+    const mistConfigs = [
+      { x: -8, y: -3, z: 8, scale: 1.0, opacity: 0.32 },
+      { x: 10, y: 1, z: -25, scale: 1.25, opacity: 0.28 },
+      { x: -6, y: 3, z: -58, scale: 1.4, opacity: 0.26 },
+      { x: 7, y: 0, z: -90, scale: 1.3, opacity: 0.28 },
+      { x: -3, y: -2, z: -115, scale: 1.5, opacity: 0.25 }
+    ];
+
+    mistConfigs.forEach((cfg, idx) => {
+      const mMat = new THREE.MeshBasicMaterial({
+        map: mistTexture,
+        transparent: true,
+        opacity: cfg.opacity,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      const mMesh = new THREE.Mesh(mistGeo, mMat);
+      mMesh.position.set(cfg.x, cfg.y, cfg.z);
+      mMesh.scale.set(cfg.scale, cfg.scale, 1);
+      mistGroup.add(mMesh);
+      mistPlanes.push({ mesh: mMesh, mat: mMat, base: cfg, speed: 0.12 + idx * 0.04 });
+    });
 
     // -------------------------------------------------------------
     // Scroll Progress & Motion Damping (Zero-allocation animation loop)
@@ -380,6 +427,20 @@ export default function HeroCanvas() {
       particles.rotation.y = elapsed * 0.015 + targetX * 0.08;
       particles.rotation.x = Math.sin(elapsed * 0.01) * 0.05;
 
+      // Organic drifting atmospheric mist layers responding to time and scroll progress
+      mistPlanes.forEach((item, idx) => {
+        const driftX = Math.sin(elapsed * item.speed + idx * 1.5) * 2.8;
+        const driftY = Math.cos(elapsed * (item.speed * 0.8) + idx) * 1.2;
+        item.mesh.position.x = item.base.x + driftX + targetX * 1.2;
+        item.mesh.position.y = item.base.y + driftY;
+        item.mesh.rotation.z = Math.sin(elapsed * 0.08 + idx) * 0.06;
+
+        // Subtle breathing opacity calibrated across the journey
+        const distFromCam = Math.abs(camera.position.z - item.mesh.position.z);
+        const proximityFactor = THREE.MathUtils.clamp(1 - distFromCam / 60, 0.4, 1.3);
+        item.mat.opacity = item.base.opacity * proximityFactor * (0.85 + Math.sin(elapsed * 1.2 + idx) * 0.15);
+      });
+
       renderer.render(scene, camera);
 
       if (isTabActive) {
@@ -440,6 +501,9 @@ export default function HeroCanvas() {
       particleGeo.dispose();
       particleMat.dispose();
       texture.dispose();
+      mistGeo.dispose();
+      mistTexture.dispose();
+      mistPlanes.forEach((item) => item.mat.dispose());
       renderer.dispose();
     };
   }, []);
