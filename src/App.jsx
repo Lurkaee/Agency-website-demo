@@ -15,11 +15,74 @@ import PrivacyPage from './pages/PrivacyPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ForbiddenPage from './pages/ForbiddenPage';
 
+function focusAfterScrollSettles(target) {
+  if (!target?.isConnected) return () => {};
+
+  let completed = false;
+  let frameId = null;
+  let stableFrames = 0;
+  let frameCount = 0;
+  let lastScrollY = window.scrollY;
+
+  const cleanup = () => {
+    if (frameId !== null) {
+      window.cancelAnimationFrame(frameId);
+      frameId = null;
+    }
+    window.removeEventListener('scrollend', finish);
+  };
+
+  const cancel = () => {
+    if (completed) return;
+    completed = true;
+    cleanup();
+  };
+
+  const finish = () => {
+    if (completed) return;
+    completed = true;
+    cleanup();
+
+    if (!target.isConnected) return;
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+  };
+
+  const checkScrollSettled = () => {
+    if (completed) return;
+    if (!target.isConnected) {
+      cancel();
+      return;
+    }
+
+    frameCount += 1;
+    const currentScrollY = window.scrollY;
+    if (Math.abs(currentScrollY - lastScrollY) < 1) {
+      stableFrames += 1;
+    } else {
+      stableFrames = 0;
+      lastScrollY = currentScrollY;
+    }
+
+    if (stableFrames >= 6 || frameCount >= 180) {
+      finish();
+      return;
+    }
+    frameId = window.requestAnimationFrame(checkScrollSettled);
+  };
+
+  if ('onscrollend' in window) window.addEventListener('scrollend', finish, { once: true });
+  frameId = window.requestAnimationFrame(checkScrollSettled);
+  return cancel;
+}
+
 export default function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname || '/');
   const [isCinemaOpen, setIsCinemaOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
   const pendingHashRef = useRef(null);
+  const pendingFocusRef = useRef(null);
+  const cancelPendingFocusRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
 
   // Scroll reading progress powered directly via Motion springs without root re-renders
@@ -30,25 +93,43 @@ export default function App() {
     restDelta: 0.001
   });
 
-  // Wait for the destination route to mount before scrolling to its anchor.
-  const scrollToHashWhenReady = useCallback(function attemptScroll(hash, frame = 0) {
+  // Replace any older focus tracker before starting a new destination flow.
+  const focusAfterScroll = useCallback((target) => {
+    cancelPendingFocusRef.current?.();
+    cancelPendingFocusRef.current = focusAfterScrollSettles(target);
+  }, []);
+
+  // Wait for destination content to mount before scrolling or moving keyboard focus.
+  const scrollToHashWhenReady = useCallback(function attemptScroll(hash, shouldFocus = false, frame = 0) {
     const target = document.querySelector(hash);
     if (target) {
       target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      if (shouldFocus) focusAfterScroll(target);
       return;
     }
 
-    if (frame < 12) {
-      window.requestAnimationFrame(() => attemptScroll(hash, frame + 1));
+    if (frame < 90) {
+      window.requestAnimationFrame(() => attemptScroll(hash, shouldFocus, frame + 1));
       return;
     }
 
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [prefersReducedMotion]);
+    if (shouldFocus) {
+      const mainContent = document.querySelector('#main-content');
+      if (mainContent) focusAfterScroll(mainContent);
+    }
+  }, [prefersReducedMotion, focusAfterScroll]);
+
+  useEffect(() => () => {
+    cancelPendingFocusRef.current?.();
+  }, []);
 
   // Synchronise browser back/forward history, including hash-only history entries.
   useEffect(() => {
     const handlePopState = () => {
+      cancelPendingFocusRef.current?.();
+      cancelPendingFocusRef.current = null;
+      pendingFocusRef.current = null;
       const path = window.location.pathname || '/';
       const hash = window.location.hash || null;
 
@@ -90,7 +171,12 @@ export default function App() {
     }
   }, [currentPath]);
 
-  const navigate = (rawTarget) => {
+  const navigate = (rawTarget, options = {}) => {
+    const shouldFocusDestination = Boolean(options.focusDestination);
+    cancelPendingFocusRef.current?.();
+    cancelPendingFocusRef.current = null;
+    pendingFocusRef.current = null;
+
     let targetPath = rawTarget;
     let targetHash = null;
 
@@ -106,12 +192,20 @@ export default function App() {
         if (`${window.location.pathname}${window.location.hash}` !== nextUrl) {
           window.history.pushState({}, '', nextUrl);
         }
-        window.requestAnimationFrame(() => scrollToHashWhenReady(targetHash));
+        scrollToHashWhenReady(targetHash, shouldFocusDestination);
+      } else if (shouldFocusDestination) {
+        window.scrollTo({
+          top: 0,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth'
+        });
+        const mainContent = document.querySelector('#main-content');
+        if (mainContent) focusAfterScroll(mainContent);
       }
       return;
     }
 
     pendingHashRef.current = targetHash;
+    pendingFocusRef.current = shouldFocusDestination ? (targetHash || '#main-content') : null;
     const nextUrl = targetHash ? `${targetPath}${targetHash}` : targetPath;
     window.history.pushState({}, '', nextUrl);
     setIsNavigating(true);
@@ -204,6 +298,9 @@ export default function App() {
     );
   }
 
+  const renderedRouteKeyRef = useRef(routeKey);
+  renderedRouteKeyRef.current = routeKey;
+
   return (
     <div id="top" className="site-canvas">
       {/* High-Performance Smooth Reading Progress Bar */}
@@ -254,6 +351,16 @@ export default function App() {
           initial="initial"
           animate="animate"
           exit="exit"
+          onAnimationComplete={() => {
+            // An outgoing route must not consume focus intended for its replacement.
+            if (renderedRouteKeyRef.current !== routeKey) return;
+            const selector = pendingFocusRef.current;
+            if (!selector) return;
+
+            pendingFocusRef.current = null;
+            const target = document.querySelector(selector) || document.querySelector('#main-content');
+            if (target) focusAfterScroll(target);
+          }}
           className="route-transition-container"
         >
           {pageContent}

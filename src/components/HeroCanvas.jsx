@@ -136,15 +136,22 @@ export default function HeroCanvas() {
     window.addEventListener('resize', handleResize);
 
     // Performance Management: Pause frame loop entirely when off-screen or tab hidden
-    let isVisible = true;
+    let isVisible = false;
     let isTabActive = !document.hidden;
     let isRunning = false;
     let animationFrameId = null;
-    const startTime = performance.now();
+    let loopStartedAt = null;
+    let accumulatedElapsed = 0;
 
     const shouldAnimate = () => isVisible && isTabActive;
 
     const stopLoop = () => {
+      // Accumulate only time spent actively running; repeated stops are harmless.
+      if (isRunning && loopStartedAt !== null) {
+        accumulatedElapsed += (performance.now() - loopStartedAt) * 0.001;
+      }
+      loopStartedAt = null;
+
       if (animationFrameId !== null) {
         cancelAnimationFrame(animationFrameId);
         animationFrameId = null;
@@ -153,15 +160,14 @@ export default function HeroCanvas() {
     };
 
     const animate = () => {
-      // Guard against running when state changed
+      // A frame is scheduled again only after a successful render.
+      animationFrameId = null;
       if (!shouldAnimate()) {
         stopLoop();
         return;
       }
 
-      animationFrameId = requestAnimationFrame(animate);
-
-      const elapsed = (performance.now() - startTime) * 0.001;
+      const elapsed = accumulatedElapsed + (performance.now() - loopStartedAt) * 0.001;
 
       targetX += (mouseX - targetX) * 0.05;
       targetY += (mouseY - targetY) * 0.05;
@@ -180,11 +186,17 @@ export default function HeroCanvas() {
       haloMat.opacity = 0.16 + Math.cos(elapsed * 1.2) * 0.06;
 
       renderer.render(scene, camera);
+      if (shouldAnimate()) {
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
+        stopLoop();
+      }
     };
 
     const startLoop = () => {
       if (!isRunning && shouldAnimate()) {
         isRunning = true;
+        loopStartedAt = performance.now();
         animationFrameId = requestAnimationFrame(animate);
       }
     };
