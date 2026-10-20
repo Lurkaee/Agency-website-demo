@@ -637,11 +637,16 @@ img {
   inset: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   pointer-events: none;
   z-index: 0;
   opacity: 0.95;
   transition: opacity 0.4s ease;
   background: var(--bg-ink);
+}
+
+.cinematic-canvas-container:empty {
+  display: none;
 }
 
 .hero-section {
@@ -1138,6 +1143,10 @@ img {
 }
 
 .filter-pill {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 18px;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -1981,7 +1990,9 @@ img {
 .footer-watermark {
   position: absolute;
   bottom: 0;
-  right: -2vw;
+  right: 0;
+  max-width: 100%;
+  overflow: hidden;
   font-family: var(--font-display);
   font-size: clamp(6rem, 18vw, 17rem);
   font-weight: 800;
@@ -2439,10 +2450,21 @@ img {
 
 .gallery-thumbnail-card {
   position: relative;
+  display: block;
+  width: 100%;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-align: left;
   border-radius: var(--radius-xs);
   overflow: hidden;
   cursor: pointer;
   background: #1c1f28;
+}
+
+.gallery-thumbnail-card:focus-visible {
+  outline: 2px solid var(--accent-lime);
+  outline-offset: 4px;
 }
 
 .gallery-thumbnail-card img {
@@ -2583,6 +2605,10 @@ img {
   .intro-metrics-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px;
+  }
+
+  .intro-chapter-tag {
+    display: none;
   }
 
   .footer-top-grid {
@@ -2729,8 +2755,10 @@ img {
   }
 
   .mobile-menu-toggle {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     margin-left: 8px;
   }
 

@@ -6,9 +6,8 @@ import KineticHeading from './KineticHeading';
 import RollingDigits from './RollingDigits';
 import SectionGlyph from './SectionGlyph';
 
-function WorkCardImage({ src, alt, title, category }) {
+function WorkCardImage({ src, alt, title, category, srcSet, index = 1 }) {
   const [hasError, setHasError] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
   return (
     <div className="work-image-inner">
@@ -40,11 +39,12 @@ function WorkCardImage({ src, alt, title, category }) {
       ) : (
         <img
           src={src}
+          srcSet={srcSet}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           alt={alt}
-          loading="eager"
+          loading={index === 0 ? 'eager' : 'lazy'}
           decoding="async"
-          className={`work-cover-img ${isLoaded ? 'is-loaded' : ''}`}
-          onLoad={() => setIsLoaded(true)}
+          className="work-cover-img"
           onError={(e) => {
             console.warn(`[Algoryxz] Project photograph failed to load for "${title}":`, src, e);
             setHasError(true);
@@ -136,6 +136,8 @@ export default function SelectedWork({ onNavigate }) {
                 <span className="work-card-num"><RollingDigits value={project.number} delay={idx * 0.04} /></span>
                 <WorkCardImage
                   src={project.heroImage}
+                  srcSet={project.heroImageSrcSet}
+                  index={idx}
                   alt={project.alt}
                   title={project.title}
                   category={project.category}

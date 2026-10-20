@@ -215,13 +215,11 @@ export default function HeroCanvas() {
     const particleCount = 200;
     const particleGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
-    const particleScales = new Float32Array(particleCount);
 
     for (let i = 0; i < particleCount; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 60;
       positions[i * 3 + 1] = (Math.random() - 0.2) * 30 - 4;
       positions[i * 3 + 2] = Math.random() * -140 + 20;
-      particleScales[i] = Math.random() * 0.9 + 0.3;
     }
 
     particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -319,11 +317,19 @@ export default function HeroCanvas() {
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
     const updateScrollProgress = () => {
-      const scrollMax = Math.max(
-        document.documentElement.scrollHeight - window.innerHeight,
-        1
-      );
-      targetScrollProgress = Math.min(Math.max(window.scrollY / scrollMax, 0), 1);
+      const proposalEl = document.getElementById('proposal');
+      let storyMax;
+      if (proposalEl) {
+        const rect = proposalEl.getBoundingClientRect();
+        const proposalTop = window.scrollY + rect.top;
+        storyMax = Math.max(proposalTop - window.innerHeight * 0.35, 1);
+      } else {
+        storyMax = Math.max(
+          document.documentElement.scrollHeight - window.innerHeight,
+          1
+        );
+      }
+      targetScrollProgress = Math.min(Math.max(window.scrollY / storyMax, 0), 1);
     };
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
     updateScrollProgress();
@@ -344,6 +350,7 @@ export default function HeroCanvas() {
     let isRunning = false;
     let animationFrameId = null;
     let loopStartedAt = null;
+    let lastFrameTime = performance.now();
     let accumulatedElapsed = 0;
 
     const stopLoop = () => {
@@ -370,14 +377,22 @@ export default function HeroCanvas() {
         return;
       }
 
-      const elapsed = accumulatedElapsed + (performance.now() - loopStartedAt) * 0.001;
+      const now = performance.now();
+      const rawDelta = (now - lastFrameTime) * 0.001;
+      lastFrameTime = now;
+      // Clamp delta to protect against large frame jumps after background tab suspension
+      const delta = Math.min(Math.max(rawDelta, 0.001), 0.1);
 
-      // Smooth scroll interpolation
-      smoothScrollProgress += (targetScrollProgress - smoothScrollProgress) * 0.055;
+      const elapsed = accumulatedElapsed + (now - loopStartedAt) * 0.001;
 
-      // Smooth mouse parallax damping
-      targetX += (mouseX - targetX) * 0.05;
-      targetY += (mouseY - targetY) * 0.05;
+      // Frame-rate-independent exponential decay damping across 30, 60, 120, and 144 Hz
+      const scrollDamp = 1 - Math.exp(-4.5 * delta);
+      const mouseDamp = 1 - Math.exp(-4.0 * delta);
+      const camDamp = 1 - Math.exp(-6.0 * delta);
+
+      smoothScrollProgress += (targetScrollProgress - smoothScrollProgress) * scrollDamp;
+      targetX += (mouseX - targetX) * mouseDamp;
+      targetY += (mouseY - targetY) * mouseDamp;
 
       // Coordinate camera journey through the 4 scenes:
       // Scene A (p = 0.0 - 0.18): Hero mountain landscape
@@ -391,14 +406,14 @@ export default function HeroCanvas() {
       targetCamPos.y = 1.5 + p * 3.5 - targetY * 1.0;
       targetCamPos.z = 26 - p * 115; // Glides from z=26 down to z=-89
 
-      camera.position.lerp(targetCamPos, 0.08);
+      camera.position.lerp(targetCamPos, camDamp);
 
       // Camera look-at point advances ahead
       targetLookAt.x = targetX * 0.6;
       targetLookAt.y = 1.0 + Math.sin(p * Math.PI) * 1.5;
       targetLookAt.z = targetCamPos.z - 35;
 
-      currentLookAt.lerp(targetLookAt, 0.08);
+      currentLookAt.lerp(targetLookAt, camDamp);
       camera.lookAt(currentLookAt);
 
       // Algorithmic Polyhedron motion and spatial trajectory
@@ -454,6 +469,7 @@ export default function HeroCanvas() {
       if (!isRunning && isTabActive) {
         isRunning = true;
         loopStartedAt = performance.now();
+        lastFrameTime = loopStartedAt;
         animationFrameId = requestAnimationFrame(animate);
       }
     };

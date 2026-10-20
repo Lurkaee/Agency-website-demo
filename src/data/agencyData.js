@@ -7,7 +7,9 @@ export const PROJECTS = [
     location: 'The Subterranean Vaults (Concept)',
     client: 'Illustrative concept study',
     tagline: 'Volumetric laser architecture, kinetic glass monoliths, and sensory acoustic immersion.',
-    heroImage: '/images/monolith-hero-laser.jpg',
+    heroImage: '/images/monolith-hero-laser.webp',
+    heroImageFallback: '/images/monolith-hero-laser.jpg',
+    heroImageSrcSet: '/images/monolith-hero-laser-800.webp 800w, /images/monolith-hero-laser.webp 1376w',
     alt: 'Synchronized architectural volumetric laser installation and steel monolith portals in a dark industrial vault',
     summary: 'A multi-sensory brand experience transforming raw industrial subterranean architecture into a glowing temple of algorithmic light and sound. Designed to command total attendee presence.',
     overview: 'Conceived for an international automotive and technology reveal, The Monolith Protocol utilized synchronized volumetric laser arrays, acoustic spatial audio mapping, and cold-rolled steel monoliths to create an unforgettable physical immersion without unnecessary visual clutter.',
@@ -20,12 +22,16 @@ export const PROJECTS = [
     ],
     gallery: [
       {
-        src: '/images/monolith-threshold.jpg',
+        src: '/images/monolith-threshold.webp',
+        srcSet: '/images/monolith-threshold-800.webp 800w, /images/monolith-threshold.webp 1376w',
+        fallback: '/images/monolith-threshold.jpg',
         alt: 'Brutalist concrete entry corridor defined by geometric volumetric light portals and cold atmospheric haze',
         caption: 'The threshold — architectural volumetric lighting defining the entry chamber.'
       },
       {
-        src: '/images/monolith-kinetic-reveal.jpg',
+        src: '/images/monolith-kinetic-reveal.webp',
+        srcSet: '/images/monolith-kinetic-reveal-800.webp 800w, /images/monolith-kinetic-reveal.webp 1376w',
+        fallback: '/images/monolith-kinetic-reveal.jpg',
         alt: 'Monumental kinetic obsidian and cold-rolled steel monolith with illuminated algorithmic circuit telemetry',
         caption: 'The reveal — kinetic monolithic displays responding in real-time.'
       },
@@ -67,7 +73,9 @@ export const PROJECTS = [
         caption: 'The stage — curved proscenium keeping ideas at the focal point.'
       },
       {
-        src: '/images/summit-audience-delegates.jpg',
+        src: '/images/summit-audience-delegates.webp',
+        srcSet: '/images/summit-audience-delegates-800.webp 800w, /images/summit-audience-delegates.webp 1376w',
+        fallback: '/images/summit-audience-delegates.jpg',
         alt: 'Executive delegates seated in curved tiered rows of a modern amphitheatre during the global leadership keynote',
         caption: 'The audience — designed for uncompromised sightlines and comfort.'
       },
@@ -213,7 +221,7 @@ export const CINEMA_SLIDES = [
     category: 'EXECUTIVE DINING'
   },
   {
-    src: '/images/monolith-hero-laser.jpg',
+    src: '/images/monolith-hero-laser.webp',
     title: 'Kinetic Brand Revelations',
     subtitle: 'Immersive tactile installations commanding total presence',
     category: 'ACTIVATION'
