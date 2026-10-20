@@ -1,18 +1,26 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useRef } from 'react';
 import { ArrowUpRight, ArrowDown, Play } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 
 // Lazy-load Three.js canvas to dramatically reduce initial JavaScript execution blocking
 const HeroCanvas = lazy(() => import('./HeroCanvas'));
 
 export default function Hero({ onOpenCinema }) {
+  const heroRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start']
+  });
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '7%']);
+
   const scrollTo = (id) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section className="hero-section" aria-labelledby="hero-title">
+    <section ref={heroRef} className="hero-section" aria-labelledby="hero-title">
       {/* Interactive Algorithmic 3D Canvas with Lightweight Zero-Shift Fallback */}
       <Suspense fallback={<div className="hero-canvas-fallback" aria-hidden="true" />}>
         <HeroCanvas />
@@ -20,12 +28,18 @@ export default function Hero({ onOpenCinema }) {
 
       {/* Hero Photography Layer */}
       <div className="hero-photo-wrap">
-        <img
-          className="hero-photo"
-          src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1800&q=80"
-          alt="Volumetric architectural laser light installation commanding spatial presence"
-          fetchPriority="high"
-        />
+        <motion.div
+          className="hero-photo-parallax"
+          style={{ y: prefersReducedMotion ? 0 : backgroundY }}
+          aria-hidden="true"
+        >
+          <img
+            className="hero-photo"
+            src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1800&q=80"
+            alt=""
+            fetchPriority="high"
+          />
+        </motion.div>
         <div className="hero-gradient-overlay" />
       </div>
 

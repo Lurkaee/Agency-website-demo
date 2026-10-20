@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion, useScroll, useSpring } from 'motion/react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -30,18 +30,46 @@ export default function App() {
     restDelta: 0.001
   });
 
-  // Synchronise browser back/forward history
+  // Wait for the destination route to mount before scrolling to its anchor.
+  const scrollToHashWhenReady = useCallback((hash, frame = 0) => {
+    const target = document.querySelector(hash);
+    if (target) {
+      target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      return;
+    }
+
+    if (frame < 12) {
+      window.requestAnimationFrame(() => scrollToHashWhenReady(hash, frame + 1));
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [prefersReducedMotion]);
+
+  // Synchronise browser back/forward history, including hash-only history entries.
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname || '/';
       const hash = window.location.hash || null;
+
+      if (path === currentPath) {
+        pendingHashRef.current = null;
+        if (hash) {
+          window.requestAnimationFrame(() => scrollToHashWhenReady(hash));
+        } else {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }
+        return;
+      }
+
       pendingHashRef.current = hash;
+      setIsNavigating(true);
       setCurrentPath(path);
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
+  }, [currentPath, scrollToHashWhenReady]);
 
   // Update document title dynamically based on route
   useEffect(() => {
@@ -74,10 +102,11 @@ export default function App() {
 
     if (targetPath === currentPath) {
       if (targetHash) {
-        const el = document.querySelector(targetHash);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
+        const nextUrl = `${targetPath}${targetHash}`;
+        if (`${window.location.pathname}${window.location.hash}` !== nextUrl) {
+          window.history.pushState({}, '', nextUrl);
         }
+        window.requestAnimationFrame(() => scrollToHashWhenReady(targetHash));
       }
       return;
     }
@@ -199,7 +228,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <Header currentPath={currentPath} onNavigate={navigate} />
+      <Header onNavigate={navigate} />
 
       {/* Shared Continuous Page Transitions with onExitComplete scroll orchestration */}
       <AnimatePresence
@@ -211,14 +240,8 @@ export default function App() {
           pendingHashRef.current = null;
 
           if (hash) {
-            setTimeout(() => {
-              const el = document.querySelector(hash);
-              if (el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-              } else {
-                window.scrollTo({ top: 0, behavior: 'instant' });
-              }
-            }, 60);
+            // Route content is mounted after the exit completes; poll animation frames until its anchor exists.
+            window.requestAnimationFrame(() => scrollToHashWhenReady(hash));
           } else {
             window.scrollTo({ top: 0, behavior: 'instant' });
           }
