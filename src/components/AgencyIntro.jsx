@@ -1,5 +1,5 @@
 import { ArrowUpRight } from 'lucide-react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import KineticHeading from './KineticHeading';
 import RollingDigits from './RollingDigits';
 import SectionGlyph from './SectionGlyph';
@@ -63,7 +63,7 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <span className="metric-number"><RollingDigits value="01" delay={0.06 * (i - 1)} /></span>
+              <span className="metric-number"><RollingDigits value="01" delay={0.05} /></span>
               <span className="metric-label">Spatial Scenography</span>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
                 Stage geometry, physical guest flow, and architectural environments.
@@ -76,7 +76,7 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.18 }}
             >
-              <span className="metric-number"><RollingDigits value="02" delay={0.06 * (i - 1)} /></span>
+              <span className="metric-number"><RollingDigits value="02" delay={0.1} /></span>
               <span className="metric-label">Lighting & Acoustics</span>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
                 Volumetric light arrays, spatial sound composition, and dynamic pacing.
@@ -89,7 +89,7 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.26 }}
             >
-              <span className="metric-number"><RollingDigits value="03" delay={0.06 * (i - 1)} /></span>
+              <span className="metric-number"><RollingDigits value="03" delay={0.15} /></span>
               <span className="metric-label">Technical Direction</span>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
                 Kinetic rigging, display systems, and precise live show calling.
@@ -102,7 +102,7 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.34 }}
             >
-              <span className="metric-number"><RollingDigits value="04" delay={0.06 * (i - 1)} /></span>
+              <span className="metric-number"><RollingDigits value="04" delay={0.2} /></span>
               <span className="metric-label">Production Stewardship</span>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
                 Master scheduling, supplier governance, and turnkey strike oversight.

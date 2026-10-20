@@ -83,6 +83,7 @@ export default function App() {
   const pendingHashRef = useRef(null);
   const pendingFocusRef = useRef(null);
   const cancelPendingFocusRef = useRef(null);
+  const renderedRouteKeyRef = useRef(currentPath === '/' || currentPath === '' ? 'homepage' : currentPath);
   const prefersReducedMotion = useReducedMotion();
 
   // Scroll reading progress powered directly via Motion springs without root re-renders
@@ -298,8 +299,9 @@ export default function App() {
     );
   }
 
-  const renderedRouteKeyRef = useRef(routeKey);
-  renderedRouteKeyRef.current = routeKey;
+  useEffect(() => {
+    renderedRouteKeyRef.current = routeKey;
+  }, [routeKey]);
 
   return (
     <div id="top" className="site-canvas">
@@ -351,8 +353,9 @@ export default function App() {
           initial="initial"
           animate="animate"
           exit="exit"
-          onAnimationComplete={() => {
+          onAnimationComplete={(definition) => {
             // An outgoing route must not consume focus intended for its replacement.
+            if (definition && definition !== 'animate') return;
             if (renderedRouteKeyRef.current !== routeKey) return;
             const selector = pendingFocusRef.current;
             if (!selector) return;

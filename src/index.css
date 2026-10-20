@@ -2699,6 +2699,14 @@ img {
 }
 
 .rolling-static-character { display: inline-block; }
+.rolling-digit-static {
+  display: inline-block;
+  line-height: 1;
+  min-width: 0.58em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: inherit;
+}
 
 .metric-number .rolling-digits { color: var(--text-ink); }
 .metric-number .rolling-digit-strip > span { color: inherit; }
@@ -2717,8 +2725,15 @@ img {
   overflow: hidden;
   white-space: nowrap;
   vertical-align: bottom;
-  padding-bottom: 0.09em;
-  margin-bottom: -0.09em;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+
+.kinetic-heading-space {
+  display: inline-block;
+  width: 0.28em;
+  line-height: inherit;
+  vertical-align: bottom;
 }
 
 .kinetic-heading-char {
@@ -2882,5 +2897,34 @@ img {
 
   .brand-mark,
   .work-card-num { transition: none !important; }
-  .kinetic-heading-char { transform: none !important; }
+
+  .kinetic-heading-word {
+    overflow: visible !important;
+  }
+
+  .kinetic-heading-char {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .rolling-digit-strip {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .brand-mark path,
+  .section-glyph path {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  .brand-mark circle,
+  .section-glyph circle {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
 }

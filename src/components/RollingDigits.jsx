@@ -11,7 +11,19 @@ export default function RollingDigits({ value, className = '', delay = 0 }) {
       <span className={('rolling-digits ' + className).trim()} aria-hidden="true">
         {Array.from(text).map((character, index) => {
           if (!/\d/.test(character)) {
-            return <span className="rolling-static-character" key={character + '-' + index}>{character}</span>;
+            return (
+              <span className="rolling-static-character" key={character + '-' + index}>
+                {character}
+              </span>
+            );
+          }
+
+          if (reduceMotion) {
+            return (
+              <span className="rolling-digit-static" key={character + '-' + index}>
+                {character}
+              </span>
+            );
           }
 
           const endPosition = 10 + Number(character);
@@ -21,12 +33,12 @@ export default function RollingDigits({ value, className = '', delay = 0 }) {
             <span className="rolling-digit-window" key={character + '-' + index}>
               <motion.span
                 className="rolling-digit-strip"
-                initial={{ y: reduceMotion ? endY : '0%' }}
+                initial={{ y: '0%' }}
                 whileInView={{ y: endY }}
-                viewport={{ once: true, amount: 0.65 }}
+                viewport={{ once: true, amount: 0.2, margin: '0px 0px -30px 0px' }}
                 transition={{
-                  duration: reduceMotion ? 0 : 1.12,
-                  delay: reduceMotion ? 0 : delay + index * 0.075,
+                  duration: 1.12,
+                  delay: delay + index * 0.075,
                   ease: [0.16, 1, 0.3, 1]
                 }}
               >
@@ -42,3 +54,4 @@ export default function RollingDigits({ value, className = '', delay = 0 }) {
     </>
   );
 }
+

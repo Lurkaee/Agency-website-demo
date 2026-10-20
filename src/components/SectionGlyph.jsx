@@ -14,7 +14,7 @@ export default function SectionGlyph({ light = false }) {
         strokeLinejoin="round"
         initial={initialPath}
         whileInView={{ pathLength: 1, opacity: 1 }}
-        viewport={{ once: true, amount: 0.8 }}
+        viewport={{ once: true, amount: 0.2, margin: '0px 0px -20px 0px' }}
         transition={{ duration: reduceMotion ? 0 : 0.72, ease: [0.16, 1, 0.3, 1] }}
       />
       <motion.path
@@ -24,7 +24,7 @@ export default function SectionGlyph({ light = false }) {
         strokeLinecap="round"
         initial={initialPath}
         whileInView={{ pathLength: 1, opacity: 0.7 }}
-        viewport={{ once: true, amount: 0.8 }}
+        viewport={{ once: true, amount: 0.2, margin: '0px 0px -20px 0px' }}
         transition={{ duration: reduceMotion ? 0 : 0.58, delay: reduceMotion ? 0 : 0.12, ease: [0.16, 1, 0.3, 1] }}
       />
       <motion.circle
@@ -34,10 +34,11 @@ export default function SectionGlyph({ light = false }) {
         fill="currentColor"
         initial={reduceMotion ? { scale: 1, opacity: 1 } : { scale: 0, opacity: 0 }}
         whileInView={{ scale: 1, opacity: 1 }}
-        viewport={{ once: true, amount: 0.8 }}
+        viewport={{ once: true, amount: 0.2, margin: '0px 0px -20px 0px' }}
         transition={{ duration: reduceMotion ? 0 : 0.28, delay: reduceMotion ? 0 : 0.42 }}
         style={{ transformOrigin: '50% 50%' }}
       />
     </svg>
   );
 }
+
