@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
+import { motion, useReducedMotion } from 'motion/react';
+import BrandMark from './BrandMark';
 
 export default function Header({ onNavigate }) {
+  const reduceMotion = useReducedMotion();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const triggerBtnRef = useRef(null);
@@ -89,7 +92,12 @@ export default function Header({ onNavigate }) {
         Skip to main content
       </a>
 
-      <header className={`site-header ${isScrolled ? 'is-scrolled' : ''}`}>
+      <motion.header
+        className={'site-header ' + (isScrolled ? 'is-scrolled' : '')}
+        initial={reduceMotion ? false : { opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: reduceMotion ? 0 : 0.48, ease: [0.16, 1, 0.3, 1] }}
+      >
         {/* Algoryxz Brand Monogram & Wordmark */}
         <a
           href="/"
@@ -97,10 +105,7 @@ export default function Header({ onNavigate }) {
           aria-label="Algoryxz Agency & Co. home"
           onClick={(e) => handleLinkClick(e, '/')}
         >
-          <div className="brand-algoryxz-symbol" aria-hidden="true">
-            <div className="algoryxz-hex-outer" />
-            <div className="algoryxz-hex-inner" />
-          </div>
+          <BrandMark />
           <span className="brand-title">
             ALGORYXZ
             <span>AGENCY & CO.</span>
@@ -108,7 +113,13 @@ export default function Header({ onNavigate }) {
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="desktop-nav" aria-label="Main navigation">
+        <motion.nav
+          className="desktop-nav"
+          aria-label="Main navigation"
+          initial={reduceMotion ? false : { opacity: 0, y: -7 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.5, delay: reduceMotion ? 0 : 0.12, ease: [0.16, 1, 0.3, 1] }}
+        >
           <a
             href="/#work"
             className="nav-link"
@@ -130,29 +141,35 @@ export default function Header({ onNavigate }) {
           >
             Agency & Co.
           </a>
-        </nav>
+        </motion.nav>
 
         {/* Primary CTA */}
-        <a
+        <motion.a
           href="/#proposal"
           className="header-cta"
+          initial={reduceMotion ? false : { opacity: 0, y: -5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.42, delay: reduceMotion ? 0 : 0.24 }}
+          whileHover={reduceMotion ? undefined : { y: -2 }}
+          whileTap={reduceMotion ? undefined : { scale: 0.985 }}
           onClick={(e) => handleLinkClick(e, '/#proposal')}
         >
           <span>Initiate Brief</span>
           <ArrowUpRight size={15} />
-        </a>
+        </motion.a>
 
         {/* Mobile Menu Toggle Button */}
-        <button
+        <motion.button
           ref={triggerBtnRef}
           className="mobile-menu-toggle"
           onClick={() => setMobileMenuOpen(true)}
           aria-label="Open navigation menu"
           aria-expanded={mobileMenuOpen}
+          whileTap={reduceMotion ? undefined : { scale: 0.94 }}
         >
           <Menu size={22} />
-        </button>
-      </header>
+        </motion.button>
+      </motion.header>
 
       {/* Mobile Drawer Backdrop */}
       {mobileMenuOpen && (

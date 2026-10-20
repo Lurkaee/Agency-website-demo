@@ -1,6 +1,7 @@
 import { lazy, Suspense, useRef } from 'react';
 import { ArrowUpRight, ArrowDown, Play } from 'lucide-react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
+import KineticHeading from './KineticHeading';
 
 // Lazy-load Three.js canvas to dramatically reduce initial JavaScript execution blocking
 const HeroCanvas = lazy(() => import('./HeroCanvas'));
@@ -60,17 +61,16 @@ export default function Hero({ onOpenCinema }) {
           </motion.div>
 
           {/* Signature Headline */}
-          <motion.h1
+          <KineticHeading
+            level="h1"
             id="hero-title"
             className="hero-title"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            ARCHITECTING<br />
-            EXPERIENCES THAT DEFY<br />
-            <span>THE EXPECTED.</span>
-          </motion.h1>
+            lines={[
+              { text: 'ARCHITECTING' },
+              { text: 'EXPERIENCES THAT DEFY' },
+              { text: 'THE EXPECTED.', accent: true }
+            ]}
+          />
         </div>
 
         {/* Interactive Row: Supporting copy, CTA & Cinema reel trigger */}

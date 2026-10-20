@@ -1,5 +1,6 @@
 import { ArrowUpRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import BrandMark from './BrandMark';
 
 export default function Footer({ onNavigate }) {
   const scrollToTop = (e) => {
@@ -42,10 +43,7 @@ export default function Footer({ onNavigate }) {
               onNavigate('/');
             }}
           >
-            <div className="brand-algoryxz-symbol" aria-hidden="true">
-              <div className="algoryxz-hex-outer" />
-              <div className="algoryxz-hex-inner" />
-            </div>
+            <BrandMark />
             <span className="brand-title">
               ALGORYXZ<span>AGENCY & CO.</span>
             </span>
