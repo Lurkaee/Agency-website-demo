@@ -632,16 +632,34 @@ img {
 /* ==========================================================================
    HERO SECTION (ALGORYXZ)
    ========================================================================== */
+.cinematic-canvas-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
+  transition: opacity 0.4s ease;
+  background: var(--bg-ink);
+}
+
+.cinematic-canvas-container:empty {
+  display: none;
+}
+
 .hero-section {
   position: relative;
   min-height: calc(100vh - 90px);
   min-height: calc(100svh - 90px);
-  background: var(--bg-ink);
+  background: transparent;
   color: var(--text-light);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 1;
 }
 
 .hero-background-canvas {
@@ -961,24 +979,91 @@ img {
    SECTION B: AGENCY INTRODUCTION
    ========================================================================== */
 .intro-section {
-  /* Fade out of the dark hero into the editorial paper canvas. */
+  /* Deliberate translucent paper wash allowing the Three.js journey to remain visible */
   background:
-    linear-gradient(180deg, var(--bg-ink) 0, rgba(9, 10, 13, 0.38) 30px, transparent var(--story-edge)),
-    var(--bg-paper);
+    linear-gradient(180deg, rgba(9, 10, 13, 0.6) 0%, rgba(248, 247, 244, 0.88) 120px, rgba(248, 247, 244, 0.86) 100%);
+  position: relative;
+  z-index: 1;
+}
+
+.intro-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.intro-chapter-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.intro-chapter-marker {
+  flex: 0 0 auto;
+}
+
+.intro-chapter-marker .eyebrow {
+  margin: 0;
+}
+
+.intro-chapter-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--line-light);
+}
+
+.intro-chapter-tag {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  color: var(--text-ink-subtle);
+  text-transform: uppercase;
+}
+
+.intro-headline-wrap {
+  margin-bottom: 32px;
+}
+
+.intro-headline {
+  max-width: 1200px;
 }
 
 .intro-body-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
   gap: 48px;
-  margin-top: 36px;
-  align-items: flex-end;
+  margin-top: 24px;
+  align-items: stretch;
 }
 
 .intro-lead-text {
   font-size: 1.0625rem;
   line-height: 1.85;
   color: var(--text-ink-muted);
+}
+
+.intro-manifesto-card {
+  padding: 24px 28px;
+  background: rgba(9, 10, 13, 0.035);
+  border-left: 3px solid var(--accent-lime-deep);
+  border-radius: var(--radius-xs);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.intro-quote-text {
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text-ink);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
 }
 
 .intro-metrics-row {
@@ -1021,11 +1106,11 @@ img {
    SECTION C: SELECTED WORK / CONCEPT SHOWCASE
    ========================================================================== */
 .work-section {
-  /* Shared edge colours connect paper -> work -> dark methodology without hard seams. */
+  /* Deliberate translucent paper wash allowing the 3D architecture to drift beneath */
   background:
-    linear-gradient(180deg, var(--bg-paper) 0, rgba(248, 247, 244, 0.42) 30px, transparent var(--story-edge)),
-    linear-gradient(0deg, #202127 0, rgba(32, 33, 39, 0.42) 30px, transparent var(--story-edge)),
-    var(--bg-soft);
+    linear-gradient(180deg, rgba(248, 247, 244, 0.86) 0%, rgba(241, 239, 233, 0.84) 100%);
+  position: relative;
+  z-index: 1;
 }
 
 .work-header-row {
@@ -1058,6 +1143,10 @@ img {
 }
 
 .filter-pill {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 10px 18px;
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -1075,7 +1164,8 @@ img {
   background: var(--line-light-strong);
 }
 
-.filter-pill.is-active {
+.filter-pill.is-active,
+.filter-pill.active {
   background: var(--bg-ink);
   color: var(--accent-lime);
   box-shadow: var(--shadow-sm);
@@ -1118,16 +1208,58 @@ img {
 .work-card-media {
   position: relative;
   overflow: hidden;
-  background: #1c1f28;
+  background: #14161f;
   border-radius: var(--radius-xs);
   aspect-ratio: 1.15;
+  display: block;
 }
 
-.work-card-media img {
+.work-image-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.work-card-media img,
+.work-cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  opacity: 1;
   transition: transform 0.6s var(--ease-out), filter 0.6s var(--ease-out);
+}
+
+.work-image-fallback {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #12151e;
+}
+
+.fallback-grid-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fallback-caption {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-lime);
+  background: rgba(9, 10, 13, 0.88);
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(212, 255, 50, 0.25);
+  backdrop-filter: blur(4px);
 }
 
 .work-card-media:focus-visible {
@@ -1136,7 +1268,8 @@ img {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .work-card:hover .work-card-media img {
+  .work-card:hover .work-card-media img,
+  .work-card:hover .work-cover-img {
     transform: scale(1.04);
   }
 }
@@ -1238,12 +1371,12 @@ img {
    SECTION D: SERVICES & PROCESS NARRATIVE (ALGORYXZ)
    ========================================================================== */
 .services-section {
-  /* Pick up the work section charcoal edge, then blend back toward the light studio chapter. */
+  /* Translucent dark midnight wash so glowing laser portal frames and particles emerge */
   background:
-    linear-gradient(180deg, #202127 0, rgba(32, 33, 39, 0.42) 30px, transparent var(--story-edge)),
-    linear-gradient(0deg, var(--bg-paper-alt) 0, rgba(241, 239, 233, 0.46) 30px, transparent var(--story-edge)),
-    var(--bg-ink);
+    linear-gradient(180deg, rgba(32, 33, 39, 0.82) 0%, rgba(9, 10, 13, 0.86) 80px, rgba(9, 10, 13, 0.88) 100%);
   color: var(--text-light);
+  position: relative;
+  z-index: 1;
 }
 
 .services-grid-layout {
@@ -1385,10 +1518,11 @@ img {
    SECTION E: TEAM / ABOUT
    ========================================================================== */
 .about-section {
-  /* Resolve the dark methodology edge into the light studio chapter. */
+  /* Translucent paper wash bridging the spatial journey */
   background:
-    linear-gradient(180deg, var(--bg-paper-alt) 0, rgba(241, 239, 233, 0.46) 30px, transparent var(--story-edge)),
-    var(--bg-paper);
+    linear-gradient(180deg, rgba(241, 239, 233, 0.86) 0%, rgba(248, 247, 244, 0.87) 100%);
+  position: relative;
+  z-index: 1;
 }
 
 .about-grid {
@@ -1483,11 +1617,16 @@ img {
    SECTION F: TESTIMONIALS
    ========================================================================== */
 .testimonials-section {
-  /* Paper-to-parchment shift above; a charcoal edge prepares the final brief chapter. */
+  /* Translucent paper to dark void transition confined strictly to bottom padding */
   background:
-    linear-gradient(180deg, var(--bg-paper) 0, rgba(248, 247, 244, 0.48) 30px, transparent var(--story-edge)),
-    linear-gradient(0deg, var(--bg-ink-soft) 0, rgba(18, 20, 27, 0.42) 30px, transparent var(--story-edge)),
-    var(--bg-paper-alt);
+    linear-gradient(
+      180deg,
+      rgba(248, 247, 244, 0.88) 0%,
+      rgba(248, 247, 244, 0.88) calc(100% - clamp(72px, 7vw, 110px)),
+      rgba(18, 20, 27, 0.85) 100%
+    );
+  position: relative;
+  z-index: 1;
 }
 
 .testimonials-grid {
@@ -1570,14 +1709,13 @@ img {
    SECTION G: PROPOSAL FORM SECTION (ALGORYXZ)
    ========================================================================== */
 .proposal-section {
-  /* Continue from the curatorial chapter and darken gradually into the final call to action. */
+  /* Translucent technical midnight wash revealing the terminal architectural perspective */
   background:
-    linear-gradient(180deg, var(--bg-ink-soft) 0, rgba(18, 20, 27, 0.42) 30px, transparent var(--story-edge)),
-    linear-gradient(0deg, var(--bg-ink-deep) 0, rgba(5, 6, 8, 0.45) 30px, transparent var(--story-edge)),
-    var(--bg-ink);
+    linear-gradient(180deg, rgba(18, 20, 27, 0.82) 0%, rgba(9, 10, 13, 0.85) 100%);
   color: var(--text-light);
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .proposal-container {
@@ -1852,7 +1990,9 @@ img {
 .footer-watermark {
   position: absolute;
   bottom: 0;
-  right: -2vw;
+  right: 0;
+  max-width: 100%;
+  overflow: hidden;
   font-family: var(--font-display);
   font-size: clamp(6rem, 18vw, 17rem);
   font-weight: 800;
@@ -2310,10 +2450,21 @@ img {
 
 .gallery-thumbnail-card {
   position: relative;
+  display: block;
+  width: 100%;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-align: left;
   border-radius: var(--radius-xs);
   overflow: hidden;
   cursor: pointer;
   background: #1c1f28;
+}
+
+.gallery-thumbnail-card:focus-visible {
+  outline: 2px solid var(--accent-lime);
+  outline-offset: 4px;
 }
 
 .gallery-thumbnail-card img {
@@ -2456,6 +2607,10 @@ img {
     gap: 28px;
   }
 
+  .intro-chapter-tag {
+    display: none;
+  }
+
   .footer-top-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
@@ -2484,6 +2639,10 @@ img {
 @media (max-width: 768px) {
   :root {
     --story-edge: 64px;
+  }
+
+  .intro-chapter-tag {
+    display: none;
   }
 
   .site-header {
@@ -2596,8 +2755,10 @@ img {
   }
 
   .mobile-menu-toggle {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     margin-left: 8px;
   }
 
@@ -2679,7 +2840,7 @@ img {
   height: 1em;
   min-width: 0.58em;
   overflow: hidden;
-  vertical-align: bottom;
+  vertical-align: -0.05em;
   line-height: 1;
 }
 
@@ -2691,7 +2852,9 @@ img {
 }
 
 .rolling-digit-strip > span {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 1em;
   flex: 0 0 1em;
   line-height: 1;

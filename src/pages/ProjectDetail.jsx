@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowLeft, ArrowUpRight, Maximize2, X, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PROJECTS } from '../data/agencyData';
@@ -9,6 +9,47 @@ import SectionGlyph from '../components/SectionGlyph';
 export default function ProjectDetail({ slug, onNavigate }) {
   const project = PROJECTS.find((p) => p.slug === slug) || PROJECTS[0];
   const [activeImage, setActiveImage] = useState(null);
+  const lastActiveTriggerRef = useRef(null);
+  const closeBtnRef = useRef(null);
+
+  const openLightbox = (item, event) => {
+    lastActiveTriggerRef.current = event?.currentTarget || null;
+    setActiveImage(item);
+  };
+
+  const closeLightbox = useCallback(() => {
+    setActiveImage(null);
+    if (lastActiveTriggerRef.current) {
+      window.requestAnimationFrame(() => {
+        lastActiveTriggerRef.current?.focus();
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!activeImage) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const focusTimer = setTimeout(() => {
+      closeBtnRef.current?.focus();
+    }, 40);
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeLightbox();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      clearTimeout(focusTimer);
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeImage, closeLightbox]);
 
   const scrollToProposal = () => {
     onNavigate('/#proposal');
@@ -109,22 +150,24 @@ export default function ProjectDetail({ slug, onNavigate }) {
 
         <div className="project-gallery-columns">
           {project.gallery.map((item, idx) => (
-            <motion.div
+            <motion.button
+              type="button"
               key={item.src + idx}
               className="gallery-thumbnail-card"
-              onClick={() => setActiveImage(item)}
-              role="button"
-              tabIndex={0}
-              aria-label={`Enlarge photo: ${item.caption}`}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') setActiveImage(item);
-              }}
+              onClick={(e) => openLightbox(item, e)}
+              aria-label={`Enlarge photo ${idx + 1} of ${project.gallery.length}: ${item.caption}`}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
               transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              <img src={item.src} alt={item.alt} loading="lazy" />
+              <img
+                src={item.src}
+                srcSet={item.srcSet}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                alt={item.alt}
+                loading="lazy"
+              />
               <div
                 style={{
                   position: 'absolute',
@@ -149,7 +192,7 @@ export default function ProjectDetail({ slug, onNavigate }) {
                 </span>
                 <span>{item.caption}</span>
               </div>
-            </motion.div>
+            </motion.button>
           ))}
         </div>
       </section>
@@ -222,16 +265,18 @@ export default function ProjectDetail({ slug, onNavigate }) {
         {activeImage && (
           <motion.div
             className="cinema-modal-backdrop"
-            onClick={() => setActiveImage(null)}
+            onClick={closeLightbox}
             role="dialog"
             aria-modal="true"
+            aria-label={activeImage.caption || 'Enlarged project photograph'}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
             <button
-              onClick={() => setActiveImage(null)}
+              ref={closeBtnRef}
+              onClick={closeLightbox}
               className="cinema-close-btn"
               aria-label="Close enlarged photo"
             >
@@ -247,6 +292,8 @@ export default function ProjectDetail({ slug, onNavigate }) {
             >
               <img
                 src={activeImage.src}
+                srcSet={activeImage.srcSet}
+                sizes="90vw"
                 alt={activeImage.alt}
                 style={{ maxHeight: '75vh', width: 'auto', margin: '0 auto', borderRadius: '4px', boxShadow: '0 20px 60px rgba(0,0,0,0.8)' }}
               />

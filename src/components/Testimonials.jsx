@@ -19,7 +19,7 @@ export default function Testimonials() {
   const activeTestimonial = TESTIMONIALS[currentIndex];
 
   return (
-    <section className="section-wrapper testimonials-section" aria-labelledby="testimonials-headline">
+    <section className="section-wrapper testimonials-section" id="testimonials" aria-labelledby="testimonials-headline">
       <div className="testimonials-grid">
         {/* Left Side: Rail Label & Decorative Quote Mark */}
         <motion.div

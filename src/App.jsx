@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import { motion, AnimatePresence, useReducedMotion, useScroll, useSpring } from 'motion/react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -14,6 +14,8 @@ import ProjectDetail from './pages/ProjectDetail';
 import PrivacyPage from './pages/PrivacyPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ForbiddenPage from './pages/ForbiddenPage';
+
+const HeroCanvas = lazy(() => import('./components/HeroCanvas'));
 
 function focusAfterScrollSettles(target) {
   if (!target?.isConnected) return () => {};
@@ -305,6 +307,13 @@ export default function App() {
 
   return (
     <div id="top" className="site-canvas">
+      {/* Continuous Scroll-Driven Cinematic Three.js Visual Journey */}
+      {routeKey === 'homepage' && (
+        <Suspense fallback={null}>
+          <HeroCanvas />
+        </Suspense>
+      )}
+
       {/* High-Performance Smooth Reading Progress Bar */}
       <motion.div
         className="reading-progress-bar"

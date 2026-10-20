@@ -6,6 +6,55 @@ import KineticHeading from './KineticHeading';
 import RollingDigits from './RollingDigits';
 import SectionGlyph from './SectionGlyph';
 
+function WorkCardImage({ src, alt, title, category, srcSet, index = 1 }) {
+  const [hasError, setHasError] = useState(false);
+
+  return (
+    <div className="work-image-inner">
+      {hasError ? (
+        <div className="work-image-fallback" role="img" aria-label={`${title} architectural blueprint`}>
+          <svg className="fallback-grid-svg" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="fallback-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(212, 255, 50, 0.08)" strokeWidth="0.75" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="#141720" />
+            <rect width="100%" height="100%" fill="url(#fallback-grid)" />
+            <circle cx="200" cy="150" r="54" stroke="rgba(212, 255, 50, 0.35)" strokeWidth="1" strokeDasharray="3 3" />
+            <line x1="80" y1="150" x2="320" y2="150" stroke="rgba(212, 255, 50, 0.2)" strokeWidth="1" />
+            <line x1="200" y1="60" x2="200" y2="240" stroke="rgba(212, 255, 50, 0.2)" strokeWidth="1" />
+            <polygon points="200,85 255,150 200,215 145,150" stroke="rgba(212, 255, 50, 0.5)" strokeWidth="1.2" fill="none" />
+            <text x="200" y="146" textAnchor="middle" fill="#d4ff32" fontSize="9" fontFamily="monospace" letterSpacing="0.12em">
+              [ SPATIAL SCHEMATIC ]
+            </text>
+            <text x="200" y="166" textAnchor="middle" fill="#8e929f" fontSize="8" fontFamily="monospace">
+              {category.toUpperCase()}
+            </text>
+          </svg>
+          <div className="fallback-caption">
+            <span>SCHEMATIC PREVIEW · ASSET FALLBACK</span>
+          </div>
+        </div>
+      ) : (
+        <img
+          src={src}
+          srcSet={srcSet}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          alt={alt}
+          loading={index === 0 ? 'eager' : 'lazy'}
+          decoding="async"
+          className="work-cover-img"
+          onError={(e) => {
+            console.warn(`[Algoryxz] Project photograph failed to load for "${title}":`, src, e);
+            setHasError(true);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
 export default function SelectedWork({ onNavigate }) {
   const [activeCategory, setActiveCategory] = useState('All Experiences');
   const reduceMotion = useReducedMotion();
@@ -51,7 +100,7 @@ export default function SelectedWork({ onNavigate }) {
               key={cat}
               role="tab"
               aria-selected={activeCategory === cat}
-              className={`filter-pill ${activeCategory === cat ? 'is-active' : ''}`}
+              className={`filter-pill ${activeCategory === cat ? 'active is-active' : ''}`}
               onClick={() => setActiveCategory(cat)}
             >
               {cat}
@@ -62,18 +111,18 @@ export default function SelectedWork({ onNavigate }) {
       </div>
 
       {/* Projects Grid with AnimatePresence filtering & staggered entrances */}
-      <motion.div layout className="work-cards-grid">
+      <motion.div layout={!reduceMotion} className="work-cards-grid">
         <AnimatePresence mode="popLayout">
           {filteredProjects.map((project, idx) => (
             <motion.article
-              layout
+              layout={!reduceMotion}
               key={project.slug}
               className="work-card"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+              whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.5, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.5, delay: reduceMotion ? 0 : idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
             >
               <a
                 href={`/work/${project.slug}`}
@@ -85,25 +134,14 @@ export default function SelectedWork({ onNavigate }) {
                 aria-label={`Explore ${project.title}`}
               >
                 <span className="work-card-num"><RollingDigits value={project.number} delay={idx * 0.04} /></span>
-                <motion.div
-                  className="work-card-image-reveal"
-                  initial={reduceMotion ? false : { clipPath: 'inset(0 0 100% 0)', y: 20, opacity: 0.72 }}
-                  whileInView={reduceMotion ? undefined : { clipPath: 'inset(0 0 0% 0)', y: 0, opacity: 1 }}
-                  viewport={{ once: true, amount: 0.18, margin: '0px 0px -5% 0px' }}
-                  transition={{
-                    duration: reduceMotion ? 0 : 0.88,
-                    delay: reduceMotion ? 0 : Math.min(idx * 0.055, 0.22),
-                    ease: [0.16, 1, 0.3, 1]
-                  }}
-                  style={{ position: 'absolute', inset: 0 }}
-                >
-                  <motion.img
-                    layoutId={`project-cover-${project.slug}`}
-                    src={project.heroImage}
-                    alt={project.alt}
-                    loading="lazy"
-                  />
-                </motion.div>
+                <WorkCardImage
+                  src={project.heroImage}
+                  srcSet={project.heroImageSrcSet}
+                  index={idx}
+                  alt={project.alt}
+                  title={project.title}
+                  category={project.category}
+                />
                 <div className="work-card-action" aria-hidden="true">
                   <ArrowUpRight size={20} />
                 </div>
