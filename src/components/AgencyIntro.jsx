@@ -1,5 +1,8 @@
 import { ArrowUpRight } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
+import KineticHeading from './KineticHeading';
+import RollingDigits from './RollingDigits';
+import SectionGlyph from './SectionGlyph';
 
 export default function AgencyIntro() {
   const scrollToAbout = (e) => {
@@ -13,23 +16,20 @@ export default function AgencyIntro() {
       <div className="section-rail">
         {/* Rail Sticky Column */}
         <div className="rail-sticky-col">
-          <p className="eyebrow">01 / THE ARCHITECTURE OF CONNECTION</p>
+          <p className="eyebrow"><RollingDigits value="01" delay={0.02} /> / THE ARCHITECTURE OF CONNECTION <SectionGlyph /></p>
           <div className="rail-rule" aria-hidden="true" />
         </div>
 
         {/* Content Column */}
         <div className="intro-content-col">
-          <motion.h2
+          <KineticHeading
             id="intro-headline"
             className="section-headline"
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Serious about execution.<br />
-            <span>Relentless on creative impact.</span>
-          </motion.h2>
+            lines={[
+              { text: 'Serious about execution.' },
+              { text: 'Relentless on creative impact.', accent: true }
+            ]}
+          />
 
           <motion.div
             className="intro-body-grid"
@@ -63,7 +63,7 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <span className="metric-number">01</span>
+              <span className="metric-number"><RollingDigits value="01" delay={0.06 * (i - 1)} /></span>
               <span className="metric-label">Spatial Scenography</span>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
                 Stage geometry, physical guest flow, and architectural environments.
@@ -76,7 +76,7 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.18 }}
             >
-              <span className="metric-number">02</span>
+              <span className="metric-number"><RollingDigits value="02" delay={0.06 * (i - 1)} /></span>
               <span className="metric-label">Lighting & Acoustics</span>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
                 Volumetric light arrays, spatial sound composition, and dynamic pacing.
@@ -89,7 +89,7 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.26 }}
             >
-              <span className="metric-number">03</span>
+              <span className="metric-number"><RollingDigits value="03" delay={0.06 * (i - 1)} /></span>
               <span className="metric-label">Technical Direction</span>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
                 Kinetic rigging, display systems, and precise live show calling.
@@ -102,7 +102,7 @@ export default function AgencyIntro() {
               viewport={{ once: true, margin: '-30px' }}
               transition={{ duration: 0.5, delay: 0.34 }}
             >
-              <span className="metric-number">04</span>
+              <span className="metric-number"><RollingDigits value="04" delay={0.06 * (i - 1)} /></span>
               <span className="metric-label">Production Stewardship</span>
               <p style={{ fontSize: '0.8125rem', color: 'var(--text-ink-muted)', marginTop: '8px', lineHeight: '1.5' }}>
                 Master scheduling, supplier governance, and turnkey strike oversight.

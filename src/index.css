@@ -2640,3 +2640,247 @@ img {
     animation: none !important;
   }
 }
+
+/* ==========================================================================
+   KINETIC TYPE, ROLLING NUMERALS & TRACED SVG SIGNATURES
+   A coordinated motion language using the existing Motion stack.
+   ========================================================================== */
+
+.brand-link { gap: 10px; }
+
+.brand-mark {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  overflow: visible;
+  color: var(--accent-lime);
+  transition: filter 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+.brand-link:hover .brand-mark {
+  filter: drop-shadow(0 0 7px rgba(212, 255, 50, 0.42));
+}
+
+.brand-link:active .brand-mark { transform: scale(0.96); }
+
+.rolling-digits {
+  display: inline-flex;
+  align-items: baseline;
+  vertical-align: baseline;
+  line-height: 1;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.rolling-digit-window {
+  position: relative;
+  display: inline-block;
+  height: 1em;
+  min-width: 0.58em;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1;
+}
+
+.rolling-digit-strip {
+  display: flex;
+  flex-direction: column;
+  height: 20em;
+  will-change: transform;
+}
+
+.rolling-digit-strip > span {
+  display: block;
+  height: 1em;
+  flex: 0 0 1em;
+  line-height: 1;
+  color: inherit;
+}
+
+.rolling-static-character { display: inline-block; }
+
+.metric-number .rolling-digits { color: var(--text-ink); }
+.metric-number .rolling-digit-strip > span { color: inherit; }
+.metric-number .rolling-digit-window:last-child { color: var(--accent-lime-deep); }
+
+.kinetic-heading { perspective: 900px; }
+
+.kinetic-heading-line {
+  display: block;
+  overflow: visible;
+  line-height: inherit;
+}
+
+.kinetic-heading-word {
+  display: inline-flex;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  padding-bottom: 0.09em;
+  margin-bottom: -0.09em;
+}
+
+.kinetic-heading-char {
+  display: inline-block;
+  flex: 0 0 auto;
+  transform-origin: 50% 100%;
+  backface-visibility: hidden;
+}
+
+.section-headline .kinetic-heading-line,
+.section-headline .kinetic-heading-word,
+.section-headline .kinetic-heading-char { color: inherit; }
+
+.section-headline .kinetic-heading-line.is-accent { color: var(--accent-lime-deep); }
+.section-headline-light .kinetic-heading-line.is-accent { color: var(--accent-lime); }
+
+.hero-title .kinetic-heading-line {
+  display: block;
+}
+
+.hero-title .kinetic-heading-line,
+.hero-title .kinetic-heading-word,
+.hero-title .kinetic-heading-char {
+  color: inherit;
+}
+
+.hero-title .kinetic-heading-line.is-accent {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--accent-lime);
+}
+
+.hero-title .kinetic-heading-word::after,
+.hero-title .kinetic-heading-char::after {
+  content: none;
+}
+
+.hero-title .kinetic-heading-line.is-accent::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 8px;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-lime), transparent);
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.proposal-intro-title .kinetic-heading-line,
+.proposal-intro-title .kinetic-heading-word,
+.proposal-intro-title .kinetic-heading-char { color: inherit; }
+
+.proposal-intro-title .kinetic-heading-line.is-accent { color: var(--accent-lime); }
+
+.project-detail-kinetic-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 16px 0;
+}
+
+.section-glyph {
+  display: inline-block;
+  width: 31px;
+  height: 20px;
+  margin-left: 8px;
+  overflow: visible;
+  vertical-align: -4px;
+  color: var(--accent-lime-deep);
+  opacity: 0.95;
+}
+
+.section-glyph-light { color: var(--accent-lime); }
+
+.work-card-media { isolation: isolate; }
+
+.work-card-media::after {
+  content: '';
+  position: absolute;
+  inset: -15% auto -15% -65%;
+  z-index: 1;
+  width: 42%;
+  background: linear-gradient(105deg, transparent 0%, rgba(248, 247, 244, 0.02) 28%, rgba(248, 247, 244, 0.19) 50%, rgba(248, 247, 244, 0.02) 72%, transparent 100%);
+  transform: translateX(-150%) skewX(-14deg);
+  pointer-events: none;
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .work-card-media::after { transition: transform 0.8s var(--ease-out), opacity 0.25s ease; }
+  .work-card:hover .work-card-media::after {
+    transform: translateX(430%) skewX(-14deg);
+    opacity: 1;
+  }
+  .work-card-media:hover .work-card-num {
+    box-shadow: 0 0 0 1px rgba(212, 255, 50, 0.4), 0 0 20px rgba(212, 255, 50, 0.16);
+  }
+}
+
+.work-card-num { transition: box-shadow 0.3s var(--ease-out), color 0.3s var(--ease-out); }
+
+.header-cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.header-cta::after {
+  content: '';
+  position: absolute;
+  inset: -20% auto -20% -45%;
+  width: 30%;
+  transform: translateX(-160%) skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.48), transparent);
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .header-cta:hover::after {
+    transform: translateX(560%) skewX(-18deg);
+    transition: transform 0.72s var(--ease-out);
+  }
+}
+
+.mobile-nav-backdrop { animation: algoryxz-backdrop-in 0.2s ease both; }
+.mobile-nav-drawer { animation: algoryxz-drawer-in 0.38s var(--ease-out) both; }
+
+@keyframes algoryxz-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes algoryxz-drawer-in {
+  from { opacity: 0.85; transform: translateX(22px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 480px) {
+  .brand-mark { width: 28px; height: 28px; }
+  .brand-link { gap: 8px; }
+  .project-detail-kinetic-title { font-size: clamp(2.35rem, 11vw, 3.6rem); }
+  .section-glyph { width: 26px; height: 17px; margin-left: 5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-card-media::after,
+  .header-cta::after {
+    display: none !important;
+  }
+
+  .mobile-nav-backdrop,
+  .mobile-nav-drawer {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .brand-mark,
+  .work-card-num { transition: none !important; }
+  .kinetic-heading-char { transform: none !important; }
+}

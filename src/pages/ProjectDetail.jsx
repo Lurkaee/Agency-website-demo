@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { ArrowLeft, ArrowUpRight, Maximize2, X, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { PROJECTS } from '../data/agencyData';
+import KineticHeading from '../components/KineticHeading';
+import RollingDigits from '../components/RollingDigits';
+import SectionGlyph from '../components/SectionGlyph';
 
 export default function ProjectDetail({ slug, onNavigate }) {
   const project = PROJECTS.find((p) => p.slug === slug) || PROJECTS[0];
@@ -37,9 +40,9 @@ export default function ProjectDetail({ slug, onNavigate }) {
         transition={{ duration: 0.5, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
       >
         <p className="eyebrow" style={{ color: 'var(--accent-lime-deep)' }}>
-          {project.number} / {project.category.toUpperCase()}
+          <RollingDigits value={project.number} delay={0.04} /> / {project.category.toUpperCase()} <SectionGlyph />
         </p>
-        <h1>{project.title}</h1>
+        <KineticHeading level="h1" className="project-detail-kinetic-title" lines={[{ text: project.title }]} />
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', color: 'var(--text-ink-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
           {project.location} · {project.client}
         </p>
