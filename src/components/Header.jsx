@@ -77,65 +77,10 @@ export default function Header({ onNavigate }) {
     }
   }, [mobileMenuOpen]);
 
-  const focusDestination = (targetHref) => {
-    const hash = targetHref.includes('#') ? '#' + targetHref.split('#')[1] : null;
-    const targetSelector = hash || '#main-content';
-
-    let settledFrames = 0;
-    let lastScrollY = window.scrollY;
-    let frameCount = 0;
-    const maxFrames = 75; // ~1.2s max
-
-    const applyFocus = (targetEl) => {
-      if (!targetEl) return;
-      if (!targetEl.hasAttribute('tabindex')) {
-        targetEl.setAttribute('tabindex', '-1');
-      }
-      targetEl.focus({ preventScroll: true });
-    };
-
-    const checkAndFocus = () => {
-      const el = document.querySelector(targetSelector) || document.querySelector('#main-content');
-      if (el) {
-        // Wait until scroll position has settled
-        if (Math.abs(window.scrollY - lastScrollY) < 1) {
-          settledFrames++;
-          if (settledFrames >= 3) {
-            applyFocus(el);
-            return;
-          }
-        } else {
-          settledFrames = 0;
-          lastScrollY = window.scrollY;
-        }
-      }
-
-      frameCount++;
-      if (frameCount < maxFrames) {
-        window.requestAnimationFrame(checkAndFocus);
-      } else if (el) {
-        applyFocus(el);
-      }
-    };
-
-    // If 'scrollend' is supported, listen for the event
-    if ('onscrollend' in window) {
-      const handleScrollEnd = () => {
-        window.removeEventListener('scrollend', handleScrollEnd);
-        const el = document.querySelector(targetSelector) || document.querySelector('#main-content');
-        applyFocus(el);
-      };
-      window.addEventListener('scrollend', handleScrollEnd, { once: true });
-    }
-
-    window.requestAnimationFrame(checkAndFocus);
-  };
-
   const handleLinkClick = (e, targetHref) => {
     e.preventDefault();
     closeMenu(false);
-    onNavigate(targetHref);
-    focusDestination(targetHref);
+    onNavigate(targetHref, { focusDestination: true });
   };
 
   return (
