@@ -65,6 +65,7 @@ export default function Hero({ onOpenCinema }) {
             level="h1"
             id="hero-title"
             className="hero-title"
+            animateOnMount={true}
             lines={[
               { text: 'ARCHITECTING' },
               { text: 'EXPERIENCES THAT DEFY' },

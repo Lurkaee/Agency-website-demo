@@ -189,9 +189,17 @@ export default function Header({ onNavigate }) {
           aria-label="Mobile navigation"
         >
           <div className="mobile-nav-header">
-            <span className="brand-title">
-              ALGORYXZ<span>AGENCY & CO.</span>
-            </span>
+            <a
+              href="/"
+              className="brand-link"
+              aria-label="Algoryxz Agency & Co. home"
+              onClick={(e) => handleLinkClick(e, '/')}
+            >
+              <BrandMark />
+              <span className="brand-title">
+                ALGORYXZ<span>AGENCY & CO.</span>
+              </span>
+            </a>
             <button
               ref={closeBtnRef}
               onClick={() => closeMenu(true)}

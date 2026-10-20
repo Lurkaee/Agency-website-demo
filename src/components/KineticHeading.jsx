@@ -16,7 +16,7 @@ const wordVariants = {
 };
 
 const characterVariants = {
-  hidden: { opacity: 0, y: '115%', rotateX: -68 },
+  hidden: { opacity: 0, y: '110%', rotateX: -60 },
   visible: {
     opacity: 1,
     y: '0%',
@@ -30,10 +30,29 @@ const stillVariants = {
   visible: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0 } }
 };
 
-export default function KineticHeading({ level = 'h2', id, className = '', style, lines = [], ...props }) {
+export default function KineticHeading({
+  level = 'h2',
+  id,
+  className = '',
+  style,
+  lines = [],
+  animateOnMount = false,
+  ...props
+}) {
   const reduceMotion = useReducedMotion();
   const Heading = level === 'h1' ? motion.h1 : level === 'h3' ? motion.h3 : motion.h2;
   const plainText = lines.map((line) => line.text).join(' ');
+
+  const motionProps = animateOnMount
+    ? {
+        initial: reduceMotion ? false : 'hidden',
+        animate: 'visible'
+      }
+    : {
+        initial: reduceMotion ? false : 'hidden',
+        whileInView: 'visible',
+        viewport: { once: true, amount: 0.15, margin: '0px 0px -40px 0px' }
+      };
 
   return (
     <Heading
@@ -42,9 +61,7 @@ export default function KineticHeading({ level = 'h2', id, className = '', style
       style={style}
       aria-label={plainText}
       variants={containerVariants}
-      initial={reduceMotion ? false : 'hidden'}
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+      {...motionProps}
       {...props}
     >
       {lines.map((line, lineIndex) => (
@@ -55,7 +72,13 @@ export default function KineticHeading({ level = 'h2', id, className = '', style
           variants={lineVariants}
         >
           {line.text.split(/(\s+)/).map((part, partIndex) => {
-            if (!part || /^\s+$/.test(part)) return part;
+            if (!part || /^\s+$/.test(part)) {
+              return (
+                <span key={'space-' + partIndex} className="kinetic-heading-space" aria-hidden="true">
+                  &nbsp;
+                </span>
+              );
+            }
             return (
               <motion.span
                 key={part + '-' + partIndex}
@@ -79,3 +102,4 @@ export default function KineticHeading({ level = 'h2', id, className = '', style
     </Heading>
   );
 }
+

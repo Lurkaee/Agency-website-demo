@@ -298,9 +298,6 @@ export default function App() {
     );
   }
 
-  const renderedRouteKeyRef = useRef(routeKey);
-  renderedRouteKeyRef.current = routeKey;
-
   return (
     <div id="top" className="site-canvas">
       {/* High-Performance Smooth Reading Progress Bar */}
