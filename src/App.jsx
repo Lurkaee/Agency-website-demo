@@ -10,6 +10,7 @@ import Testimonials from './components/Testimonials';
 import ProposalSection from './components/ProposalSection';
 import Footer from './components/Footer';
 import CinemaModal from './components/CinemaModal';
+import HeroCanvas from './components/HeroCanvas';
 import ProjectDetail from './pages/ProjectDetail';
 import PrivacyPage from './pages/PrivacyPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -305,6 +306,9 @@ export default function App() {
 
   return (
     <div id="top" className="site-canvas">
+      {/* Continuous Scroll-Driven Cinematic Three.js Visual Journey */}
+      {routeKey === 'homepage' && <HeroCanvas />}
+
       {/* High-Performance Smooth Reading Progress Bar */}
       <motion.div
         className="reading-progress-bar"

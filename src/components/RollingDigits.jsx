@@ -1,14 +1,17 @@
-import { motion, useReducedMotion } from 'motion/react';
+import { useRef } from 'react';
+import { motion, useReducedMotion, useInView } from 'motion/react';
 
 const DIGIT_STRIP = '01234567890123456789';
 
 export default function RollingDigits({ value, className = '', delay = 0 }) {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.1, margin: '0px 0px -40px 0px' });
   const reduceMotion = useReducedMotion();
   const text = String(value);
 
   return (
     <>
-      <span className={('rolling-digits ' + className).trim()} aria-hidden="true">
+      <span ref={containerRef} className={('rolling-digits ' + className).trim()} aria-hidden="true">
         {Array.from(text).map((character, index) => {
           if (!/\d/.test(character)) {
             return (
@@ -34,11 +37,10 @@ export default function RollingDigits({ value, className = '', delay = 0 }) {
               <motion.span
                 className="rolling-digit-strip"
                 initial={{ y: '0%' }}
-                whileInView={{ y: endY }}
-                viewport={{ once: true, amount: 0.2, margin: '0px 0px -30px 0px' }}
+                animate={{ y: isInView ? endY : '0%' }}
                 transition={{
-                  duration: 1.12,
-                  delay: delay + index * 0.075,
+                  duration: 1.15,
+                  delay: delay + index * 0.08,
                   ease: [0.16, 1, 0.3, 1]
                 }}
               >
@@ -54,4 +56,5 @@ export default function RollingDigits({ value, className = '', delay = 0 }) {
     </>
   );
 }
+
 

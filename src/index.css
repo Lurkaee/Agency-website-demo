@@ -632,16 +632,28 @@ img {
 /* ==========================================================================
    HERO SECTION (ALGORYXZ)
    ========================================================================== */
+.cinematic-canvas-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.95;
+  transition: opacity 0.4s ease;
+}
+
 .hero-section {
   position: relative;
   min-height: calc(100vh - 90px);
   min-height: calc(100svh - 90px);
-  background: var(--bg-ink);
+  background: transparent;
   color: var(--text-light);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 1;
 }
 
 .hero-background-canvas {
@@ -967,18 +979,84 @@ img {
     var(--bg-paper);
 }
 
+.intro-container {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.intro-chapter-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line-light);
+}
+
+.intro-chapter-marker {
+  flex: 0 0 auto;
+}
+
+.intro-chapter-marker .eyebrow {
+  margin: 0;
+}
+
+.intro-chapter-rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--line-light);
+}
+
+.intro-chapter-tag {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  color: var(--text-ink-subtle);
+  text-transform: uppercase;
+}
+
+.intro-headline-wrap {
+  margin-bottom: 32px;
+}
+
+.intro-headline {
+  max-width: 1200px;
+}
+
 .intro-body-grid {
   display: grid;
   grid-template-columns: 1.4fr 1fr;
   gap: 48px;
-  margin-top: 36px;
-  align-items: flex-end;
+  margin-top: 24px;
+  align-items: stretch;
 }
 
 .intro-lead-text {
   font-size: 1.0625rem;
   line-height: 1.85;
   color: var(--text-ink-muted);
+}
+
+.intro-manifesto-card {
+  padding: 24px 28px;
+  background: rgba(9, 10, 13, 0.035);
+  border-left: 3px solid var(--accent-lime-deep);
+  border-radius: var(--radius-xs);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.intro-quote-text {
+  font-family: var(--font-display);
+  font-size: 1.1875rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text-ink);
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
 }
 
 .intro-metrics-row {
@@ -1118,16 +1196,58 @@ img {
 .work-card-media {
   position: relative;
   overflow: hidden;
-  background: #1c1f28;
+  background: #14161f;
   border-radius: var(--radius-xs);
   aspect-ratio: 1.15;
+  display: block;
 }
 
-.work-card-media img {
+.work-image-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.work-card-media img,
+.work-cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  opacity: 1;
   transition: transform 0.6s var(--ease-out), filter 0.6s var(--ease-out);
+}
+
+.work-image-fallback {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #12151e;
+}
+
+.fallback-grid-svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fallback-caption {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-lime);
+  background: rgba(9, 10, 13, 0.88);
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(212, 255, 50, 0.25);
+  backdrop-filter: blur(4px);
 }
 
 .work-card-media:focus-visible {
@@ -1136,7 +1256,8 @@ img {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .work-card:hover .work-card-media img {
+  .work-card:hover .work-card-media img,
+  .work-card:hover .work-cover-img {
     transform: scale(1.04);
   }
 }
@@ -2486,6 +2607,10 @@ img {
     --story-edge: 64px;
   }
 
+  .intro-chapter-tag {
+    display: none;
+  }
+
   .site-header {
     height: 76px;
   }
@@ -2679,7 +2804,7 @@ img {
   height: 1em;
   min-width: 0.58em;
   overflow: hidden;
-  vertical-align: bottom;
+  vertical-align: -0.05em;
   line-height: 1;
 }
 
@@ -2691,7 +2816,9 @@ img {
 }
 
 .rolling-digit-strip > span {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 1em;
   flex: 0 0 1em;
   line-height: 1;

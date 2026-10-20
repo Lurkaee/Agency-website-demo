@@ -7,7 +7,7 @@ export const PROJECTS = [
     location: 'The Subterranean Vaults (Concept)',
     client: 'Illustrative concept study',
     tagline: 'Volumetric laser architecture, kinetic glass monoliths, and sensory acoustic immersion.',
-    heroImage: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1800&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1800&q=80',
     alt: 'Volumetric light chamber with laser architecture and reflective spatial surfaces',
     summary: 'A multi-sensory brand experience transforming raw industrial subterranean architecture into a glowing temple of algorithmic light and sound. Designed to command total attendee presence.',
     overview: 'Conceived for an international automotive and technology reveal, The Monolith Protocol utilized synchronized volumetric laser arrays, acoustic spatial audio mapping, and cold-rolled steel monoliths to create an unforgettable physical immersion without unnecessary visual clutter.',
@@ -20,7 +20,7 @@ export const PROJECTS = [
     ],
     gallery: [
       {
-        src: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1800&q=80',
+        src: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1800&q=80',
         alt: 'Volumetric light chamber with laser architecture',
         caption: 'The threshold — architectural volumetric lighting defining the entry chamber.'
       },

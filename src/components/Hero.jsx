@@ -1,10 +1,7 @@
-import { lazy, Suspense, useRef } from 'react';
+import { useRef } from 'react';
 import { ArrowUpRight, ArrowDown, Play } from 'lucide-react';
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import KineticHeading from './KineticHeading';
-
-// Lazy-load Three.js canvas to dramatically reduce initial JavaScript execution blocking
-const HeroCanvas = lazy(() => import('./HeroCanvas'));
 
 export default function Hero({ onOpenCinema }) {
   const heroRef = useRef(null);
@@ -22,11 +19,6 @@ export default function Hero({ onOpenCinema }) {
 
   return (
     <section ref={heroRef} className="hero-section" aria-labelledby="hero-title">
-      {/* Interactive Algorithmic 3D Canvas with Lightweight Zero-Shift Fallback */}
-      <Suspense fallback={<div className="hero-canvas-fallback" aria-hidden="true" />}>
-        <HeroCanvas />
-      </Suspense>
-
       {/* Hero Photography Layer */}
       <div className="hero-photo-wrap">
         <motion.div
