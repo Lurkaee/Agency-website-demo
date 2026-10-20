@@ -1,0 +1,98 @@
+import { ArrowUpRight } from 'lucide-react';
+import { motion } from 'motion/react';
+
+export default function AboutTeam() {
+  const scrollToProposal = (e) => {
+    e.preventDefault();
+    const el = document.getElementById('proposal');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const values = [
+    'Spatial narrative integrated with technical precision',
+    'Transparent budget engineering with zero hidden markups',
+    'Access to monumental industrial & modernist architecture',
+    'Dedicated executive producer from kick-off to wrap-up'
+  ];
+
+  return (
+    <section className="section-wrapper about-section" id="about" aria-labelledby="about-headline">
+      <div className="about-grid">
+        {/* Left Column: Team/Studio Photography with Motion reveal */}
+        <motion.div
+          className="about-image-card"
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <img
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1800&q=80"
+            alt="Algoryxz creative directors and spatial technologists collaborating in studio"
+            loading="lazy"
+          />
+          <div className="about-image-caption">
+            <span>BEHIND EVERY MONUMENTAL MOMENT</span>
+            <span>THE COLLECTIVE.</span>
+          </div>
+        </motion.div>
+
+        {/* Right Column: Editorial Copy & Principles */}
+        <motion.div
+          className="about-copy"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-50px' }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <p className="eyebrow">04 / THE COLLECTIVE BEHIND THE CURTAIN</p>
+          <h2 id="about-headline" className="section-headline" style={{ marginTop: '16px' }}>
+            Spatial architects.<br />
+            Technical directors.<br />
+            <span>Experience makers.</span>
+          </h2>
+
+          <div className="about-paragraphs">
+            <p>
+              We believe the most transformative experiences occur when intellectual ambition is coupled with uncompromising physical craftsmanship. The kind of environments where big ideas find their physical manifestation, and every sensory touchpoint commands complete engagement.
+            </p>
+            <p>
+              Operating as an internationally minded creative collective, Algoryxz unites spatial designers, lighting artists, acoustic engineers, and technical producers. Your strategic objectives become our architectural challenge. Your event becomes an enduring benchmark.
+            </p>
+          </div>
+
+          <div className="about-values-list">
+            {values.map((val, idx) => (
+              <motion.div
+                key={val}
+                className="about-value-item"
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: 0.15 + idx * 0.08 }}
+              >
+                <span className="value-bullet">✦</span>
+                <span>{val}</span>
+              </motion.div>
+            ))}
+          </div>
+
+          <div>
+            <a
+              href="#proposal"
+              className="text-link"
+              onClick={scrollToProposal}
+            >
+              <span>Explore a collaboration</span>
+              <ArrowUpRight size={18} />
+            </a>
+          </div>
+
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.625rem', color: 'var(--text-ink-subtle)', marginTop: '28px', display: 'block' }}>
+            Illustrative studio & production photography.
+          </span>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
